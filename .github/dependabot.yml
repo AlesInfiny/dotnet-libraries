@@ -1,0 +1,53 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "github-actions"
+    labels:
+      - "CI/CD"
+      - "dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "npm-root"
+    labels:
+      - "npm"
+      - "dependencies"
+
+  - package-ecosystem: "nuget"
+    directory: "/src/Maris.Logging.Testing"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "nuget-maris-logging-testing"
+    labels:
+      - "target: Maris.Logging.Testing"
+      - "nuget"
+      - "dependencies"
+    groups:
+      dotnet-packages:
+        patterns:
+          - "Microsoft.AspNetCore*"
+          - "Microsoft.EntityFrameworkCore*"
+          - "Microsoft.Extensions*"
+      xunit-packages:
+        patterns:
+          - "xunit*"
+      nswag-packages:
+        patterns:
+          - "NSwag*"
+    ignore:
+      - dependency-name: "Microsoft.AspNetCore*"
+        versions: ["9.*", "11.*"]
+      - dependency-name: "Microsoft.EntityFrameworkCore*"
+        versions: ["9.*", "11.*"]
+      - dependency-name: "Microsoft.Extensions*"
+        versions: ["9.*", "11.*"]
