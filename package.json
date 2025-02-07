@@ -1,6 +1,7 @@
 {
   "scripts": {
     "lint": "run-s lint:* --continue-on-error --print-label",
+    "lint:cspell-all": "npx cspell lint --dot --gitignore --show-context --show-suggestions .",
     "lint:markdownlint-all": "npx markdownlint-cli2",
     "lint:textlint-all": "npx textlint documents samples .github"
   },
