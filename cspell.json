@@ -8,32 +8,22 @@
         ".markdownlint.yaml",
         ".textlintignore",
         ".textlintrc",
-        ".yaml-lint.yml",
         ".editorconfig",
         "cspell.json",
+        "Directory.Build.props",
+        "Directory.Packages.props",
         "LICENSE",
         "dotnet-libraries.code-workspace",
         "package-lock.json",
         "package.json",
-        "**/build-artifacts/**",
-        "**/iis-files/**",
+        "stylecop.json",
         "**/node_modules/**",
-        "**/openapitools.json",
-        "**/*.drawio",
-        "**/*.svg",
         "src/**",
         "tests/**"
     ],
     "words": [
         "AlesInfiny",
         "BIPROGY",
-        "markdownlint",
-        "Newtonsoft",
-        "openapitools.json",
-        "nswag",
-        "seealso",
-        "stylecop",
-        "textlint",
-        "xunit"
+        "textlint"
     ]
 }
