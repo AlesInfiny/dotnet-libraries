@@ -2,9 +2,25 @@
 
 テスト対象クラスが [ILogger](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger) または [ILogger&lt;TCategoryName&gt;](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1) のオブジェクトを必要とする場合に、テストエクスプローラー上にログ出力を表示し、テストコード内でログ出力内容を検証する機能を提供します。
 
+## インストール方法
+
+パッケージマネージャーコンソールまたはコマンドプロンプトで以下のコマンドを実行してインストールしてください。
+
+- パッケージマネージャーコンソール
+
+```winbatch
+Install-Package Maris.Logging.Testing
+```
+
+- コマンドプロンプト
+
+```bash
+dotnet add package Maris.Logging.Testing
+```
+
 ## 使用方法
 
-[TestLoggerManager](src\Maris.Logging.Testing\Xunit\TestLoggerManager.cs) は xUnit のテストコードで利用できる ILogger の具象クラス ([XunitLogger](src\Maris.Logging.Testing\Xunit\XunitLogger.cs)) と FakeLogger のインスタンスを生成します。
+[TestLoggerManager](src\Maris.Logging.Testing\Xunit\TestLoggerManager.cs) は xUnit のテストコードで利用できる ILogger の具象クラス ([XunitLogger](src\Maris.Logging.Testing\Xunit\XunitLogger.cs)) と [FakeLogger](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger) のインスタンスを生成します。
 xUnit のテストコードで以下のように使用します。
 
 ```csharp title="TestClass.cs"
@@ -24,6 +40,8 @@ public class TestClass
 
         // Do something...
 
+        // TestLoggerManagerのLogCollectorプロパティはFakeLogger.Collectorを公開します
+        Assert.Equal(1, this.loggerManager.LogCollector.Count);  
         Assert.Equal("expectedCategory", this.loggerManager.LogCollector.LatestRecord.Category);
         Assert.Equal("expectedMessage", this.loggerManager.LogCollector.LatestRecord.Message);
     }
@@ -65,3 +83,7 @@ public class TestClass
     }
 }
 ```
+
+テストエクスプローラーではテスト実行中に出力されたログが以下のように表示されます。
+
+![test-explorer-log](../../images/test-explorer-log.png)
