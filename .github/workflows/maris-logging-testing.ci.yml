@@ -67,7 +67,7 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test tests/Maris.Logging.Testing.Tests/ --no-build --nologo --logger "trx;LogFileName=${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx" --logger:"console;verbosity=minimal" --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --collect "XPlat Code Coverage" > unit-test-result.txt
+          dotnet test --no-build --nologo --logger "trx;LogFileName=${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx" --logger:"console;verbosity=minimal" --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --collect "XPlat Code Coverage" > unit-test-result.txt
           echo ':heavy_check_mark: アプリケーションの単体テストに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat unit-test-result.txt >> $GITHUB_STEP_SUMMARY
@@ -87,7 +87,7 @@ jobs:
         name: コードカバレッジレポートの解析
         uses: danielpalme/ReportGenerator-GitHub-Action@5
         with:
-          reports: 'tests/Maris.Logging.Testing.Tests/**/TestResults/*/coverage.cobertura.xml'
+          reports: '**/TestResults/*/coverage.cobertura.xml'
           targetdir: 'CoverageReport'
           reporttypes: 'MarkdownSummaryGithub'
     
@@ -103,7 +103,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
-          path: tests/Test.TsunaCan.HelloWorld/TestResults/
+          path: tests/Maris.Logging.Testing.Tests/TestResults/
           retention-days: 1
 
       - name: 単体テスト結果の確認
