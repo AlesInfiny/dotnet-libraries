@@ -45,7 +45,7 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Build Result :gear:' >> $GITHUB_STEP_SUMMARY
-          dotnet build src\Maris.Logging.Testing\ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
+          dotnet build src/Maris.Logging.Testing/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
           echo ':heavy_check_mark: アプリケーションのビルドに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat build-result.txt >> $GITHUB_STEP_SUMMARY
@@ -67,7 +67,7 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test tests\Maris.Logging.Testing.Tests\ --no-build --nologo --logger "trx;LogFileName=${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx" --logger:"console;verbosity=minimal" --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --collect "XPlat Code Coverage" > unit-test-result.txt
+          dotnet test tests/Maris.Logging.Testing.Tests/ --no-build --nologo --logger "trx;LogFileName=${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx" --logger:"console;verbosity=minimal" --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --collect "XPlat Code Coverage" > unit-test-result.txt
           echo ':heavy_check_mark: アプリケーションの単体テストに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat unit-test-result.txt >> $GITHUB_STEP_SUMMARY
