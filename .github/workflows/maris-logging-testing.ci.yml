@@ -44,7 +44,7 @@ jobs:
         shell: bash
         run: |
           brew install gsed
-          alias sed='gsed'
+          echo "alias sed='gsed'" >> ~/.bashrc
 
       - name: アプリケーションのビルド
         id: application-build
