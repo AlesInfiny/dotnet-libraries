@@ -4,6 +4,7 @@
         ".git",
         ".gitattributes",
         ".gitignore",
+        ".github/workflows/**",
         ".markdownlint-cli2.yaml",
         ".markdownlint.yaml",
         ".textlintignore",
