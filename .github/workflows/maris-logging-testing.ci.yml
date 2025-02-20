@@ -105,7 +105,6 @@ jobs:
         shell: bash
         run: |
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
-          sed -i s/'# Summary'/'Coverage report of ${{ matrix.framework_version }} on ${{ matrix.vm_image }}.'/g CoverageReport/SummaryGithub.md
           cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
     
       - name: テスト結果のアップロード
