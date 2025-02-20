@@ -44,7 +44,7 @@ jobs:
         shell: bash
         run: |
           brew install gsed
-          echo "alias sed='gsed'" >> ~/.bashrc
+          echo "PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"" >> ~/.bashrc
 
       - name: アプリケーションのビルド
         id: application-build
