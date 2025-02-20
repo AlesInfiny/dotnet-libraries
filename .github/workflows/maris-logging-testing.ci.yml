@@ -92,7 +92,7 @@ jobs:
           reporttypes: 'MarkdownSummaryGithub'
     
       - name: コードカバレッジの結果表示
-        if: ${{ matrix.vm_image }} != 'macos-latest'
+        if: ${{ matrix.vm_image != 'macos-latest' }}
         shell: bash
         run: |
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
@@ -101,7 +101,7 @@ jobs:
           cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
       - name: コードカバレッジの結果表示
-        if: ${{ matrix.vm_image }} == 'macos-latest'
+        if: ${{ matrix.vm_image == 'macos-latest' }}
         shell: bash
         run: |
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
