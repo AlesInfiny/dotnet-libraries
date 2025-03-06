@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maris.Logging.Testing", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maris.Logging.Testing.Tests", "tests\Maris.Logging.Testing.Tests\Maris.Logging.Testing.Tests.csproj", "{762CF6A4-930A-4B93-9E7A-970AD73DEED5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{118DD624-6EC5-41FC-A926-2800688C9931}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D25B44AB-2086-457A-A187-871FAE514CB4} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{762CF6A4-930A-4B93-9E7A-970AD73DEED5} = {118DD624-6EC5-41FC-A926-2800688C9931}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5B6F7EBB-2EE7-476C-A119-189CFA492D4A}

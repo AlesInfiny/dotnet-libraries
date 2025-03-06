@@ -19,12 +19,13 @@
         "package.json",
         "stylecop.json",
         "**/node_modules/**",
-        "src/**",
-        "tests/**"
+        "**/*.csproj"
     ],
     "words": [
         "AlesInfiny",
         "BIPROGY",
-        "textlint"
+        "textlint",
+        "winbatch",
+        "Xunit"
     ]
 }

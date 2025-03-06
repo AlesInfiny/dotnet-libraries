@@ -5,7 +5,13 @@ on:
     branches: [ "main" ]
     paths:
       - 'src/Maris.Logging.Testing/**'
+      - 'tests/Maris.Logging.Testing.Tests/**'
       - '.github/workflows/maris-logging-testing.ci.yml'
+      - '**/Directory.Build.props'
+      - '**/Directory.Package.props'
+      - '**/global.json'
+      - '**/.editorconfig'
+      - '**/stylecop.json'
   workflow_dispatch:
 
 jobs:
