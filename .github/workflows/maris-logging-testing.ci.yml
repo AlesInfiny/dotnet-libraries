@@ -57,7 +57,8 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Build Result :gear:' >> $GITHUB_STEP_SUMMARY
-          dotnet build --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
+          dotnet build src/Maris.Logging.Testing/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
+          dotnet build tests/Maris.Logging.Testing.Tests/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --verbosity minimal > build-result.txt
           echo ':heavy_check_mark: アプリケーションのビルドに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat build-result.txt >> $GITHUB_STEP_SUMMARY
