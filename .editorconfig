@@ -179,7 +179,6 @@ csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimenta
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
-dotnet_diagnostic.SA0001.severity = none
 ###############################
 # VB Coding Conventions       #
 ###############################
