@@ -126,7 +126,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
-          path: tests/Maris.Logging.Testing.Tests/TestResults/
+          path: tests/Maris.Logging.Testing.Tests/**/TestResults/
           retention-days: 1
 
       - name: 単体テスト結果の確認
