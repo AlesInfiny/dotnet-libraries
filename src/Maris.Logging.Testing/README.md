@@ -87,3 +87,14 @@ public class TestClass
 テストエクスプローラーではテスト実行中に出力されたログが以下のように表示されます。
 
 ![test-explorer-log](../../images/test-explorer-log.png)
+
+## 主な依存ライブラリ
+
+- [xunit.v3.extensibility.core](https://www.nuget.org/packages/xunit.v3.extensibility.core/)
+
+  xUnit v3 の拡張機能を開発するためのパッケージです。
+  このライブラリは xUnit v3 で開発されたテストプロジェクトでのみ利用できます。
+
+- [Microsoft.Extensions.Diagnostics.Testing](https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing)
+
+  ログ出力のテストを行うためのライブラリです。
