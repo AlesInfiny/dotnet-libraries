@@ -1,6 +1,8 @@
 # Maris.Logging.Testing
 
-テスト対象クラスが [ILogger](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger) または [ILogger&lt;TCategoryName&gt;](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1) のオブジェクトを必要とする場合に、テストエクスプローラー上にログ出力を表示し、テストコード内でログ出力内容を検証する機能を提供します。
+[`Microsoft.Extensions.Logging.ILogger`][ILogger Web] または [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] の xUnit テストで利用可能なロガーを提供します。
+このロガーを使用すると、テスト対象クラスで出力したログを、 Visual Studio のテストエクスプローラー上で確認できるようになります。
+また [`Microsoft.Extensions.Logging.Testing.FakeLogger`][FakeLogger Web] と連携して、テストコード内でログ出力内容を検証する機能を提供します。
 
 ## インストール方法
 
@@ -98,3 +100,7 @@ public class TestClass
 - [Microsoft.Extensions.Diagnostics.Testing](https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing)
 
   ログ出力のテストを行うためのライブラリです。
+
+[ILogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger
+[ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
+[FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
