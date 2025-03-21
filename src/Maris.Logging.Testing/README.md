@@ -128,15 +128,16 @@ public class TestClass2
 
 ![test-explorer-log][Test explorer log image]
 
+詳細は [ASP.NET Core での統合テスト][ASP.NET Core integration test] を参照してください。
 
 ## 主な依存ライブラリ
 
-- [xunit.v3.extensibility.core](https://www.nuget.org/packages/xunit.v3.extensibility.core/)
+- [xunit.v3.extensibility.core][NuGet xUnit v3]
 
   xUnit v3 の拡張機能を開発するためのパッケージです。
   このライブラリは xUnit v3 で開発されたテストプロジェクトでのみ利用できます。
 
-- [Microsoft.Extensions.Diagnostics.Testing](https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing)
+- [Microsoft.Extensions.Diagnostics.Testing][NuGet Diagnostics.Testing]
 
   ログ出力のテストを行うためのライブラリです。
 
@@ -146,3 +147,6 @@ public class TestClass2
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
 [Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
 [Test explorer log image]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/images/test-explorer-log.png
+[NuGet xUnit v3]:https://www.nuget.org/packages/xunit.v3.extensibility.core/
+[NuGet Diagnostics.Testing]:https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing
+[ASP.NET Core integration test]:https://learn.microsoft.com/ja-jp/aspnet/core/test/integration-tests
