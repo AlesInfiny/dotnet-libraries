@@ -40,6 +40,14 @@ public class TestTarget
 }
 ```
 
+テストコードでテスト用のロガーを利用するためには、以下の手順で実装します。
+
+1. [xUnit v3 のプロジェクトテンプレートをインストール][Install xUnit template] して、 `dotnet new xunit3` コマンドで xUnit v3 テストプロジェクトを作成します。
+1. xUnit のテストプロジェクトに `Maris.Logging.Testing` のパッケージをインストールします。
+1. テストクラスのコンストラクターを定義し、 `Xunit.ITestOutputHelper` インターフェースのオブジェクトを引数に取ります。
+1. コンストラクターで `Maris.Logging.Testing.Xunit.TestLoggerManager` のオブジェクトを生成し、フィールドに保存します。
+   `TestLoggerManager` のコンストラクターには `ITestOutputHelper` のオブジェクトを渡します。
+1. テストメソッド内で `TestLoggerManager` の `CreateLogger` メソッドを呼び出して、テスト対象クラスに渡す `ILogger` または `ILogger<TCategoryName>` のオブジェクトを生成します。
 
 ```csharp title="TestClass1.cs"
 using Maris.Logging.Testing.Xunit;
@@ -133,3 +141,4 @@ public class TestClass2
 [ILogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger
 [ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
+[Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
