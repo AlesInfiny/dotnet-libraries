@@ -125,7 +125,8 @@ public class TestClass2
 
 テストエクスプローラーではテスト実行中に出力されたログが以下のように表示されます。
 
-![test-explorer-log](../../images/test-explorer-log.png)
+![test-explorer-log][Test explorer log image]
+
 
 ## 主な依存ライブラリ
 
@@ -142,3 +143,4 @@ public class TestClass2
 [ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
 [Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
+[Test explorer log image]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/images/test-explorer-log.png
