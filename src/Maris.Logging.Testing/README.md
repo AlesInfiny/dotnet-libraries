@@ -53,19 +53,27 @@ public class TestClass
 [IHost](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.hosting.ihost) のテストを行う際は、 [TestLoggerServiceCollectionExtensions](src\Maris.Logging.Testing\Xunit\TestLoggerServiceCollectionExtensions.cs) の `AddTestLogging` メソッドを利用して各 Logger を DI コンテナーに登録できます。
 xUnit のテストコードで以下のように使用します。
 
-``` C#
-public class TestClass
+```csharp title="TestClass2.cs"
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Maris.Logging.Testing.Xunit;
+using Xunit;
+
+namespace Maris.Tests;
+
+public class TestClass2
 {
     private readonly TestLoggerManager loggerManager;
 
-    public TestClass(ITestOutputHelper testOutputHelper)
+    public TestClass2(ITestOutputHelper testOutputHelper)
         => this.loggerManager = new TestLoggerManager(testOutputHelper);
 
     [Fact]
-    public void TestMethod()
+    public async Task TestMethod()
     {
         using var app = this.CreateHost();
-        await app.RunAsync();
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await app.RunAsync(cancellationToken);
         
         // Do something...
     }
