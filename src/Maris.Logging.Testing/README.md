@@ -79,8 +79,9 @@ public class TestClass1
 }
 ```
 
-[IHost](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.hosting.ihost) のテストを行う際は、 [TestLoggerServiceCollectionExtensions](src\Maris.Logging.Testing\Xunit\TestLoggerServiceCollectionExtensions.cs) の `AddTestLogging` メソッドを利用して各 Logger を DI コンテナーに登録できます。
-xUnit のテストコードで以下のように使用します。
+[`Microsoft.Extensions.Hosting.IHost`][IHost Web] のテストを行う際は、 `AddTestLogging` メソッドを利用してテスト用のロガーを DI コンテナーに登録できます。
+`AddTestLogging` メソッドは `Microsoft.Extensions.DependencyInjection.TestLoggerServiceCollectionExtensions` クラスに定義されています。
+xUnit のテストコード例は以下のとおりです。
 
 ```csharp title="TestClass2.cs"
 using Microsoft.Extensions.DependencyInjection;
@@ -139,6 +140,7 @@ public class TestClass2
 
   ログ出力のテストを行うためのライブラリです。
 
+[IHost Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.hosting.ihost
 [ILogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger
 [ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
