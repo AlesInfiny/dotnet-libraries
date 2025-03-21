@@ -25,12 +25,17 @@ dotnet add package Maris.Logging.Testing
 [TestLoggerManager](src\Maris.Logging.Testing\Xunit\TestLoggerManager.cs) は xUnit のテストコードで利用できる ILogger の具象クラス ([XunitLogger](src\Maris.Logging.Testing\Xunit\XunitLogger.cs)) と [FakeLogger](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger) のインスタンスを生成します。
 xUnit のテストコードで以下のように使用します。
 
-```csharp title="TestClass.cs"
-public class TestClass
+```csharp title="TestClass1.cs"
+using Maris.Logging.Testing.Xunit;
+using Xunit;
+
+namespace Maris.Tests;
+
+public class TestClass1
 {
     private readonly TestLoggerManager loggerManager;
 
-    public TestClass(ITestOutputHelper testOutputHelper)
+    public TestClass1(ITestOutputHelper testOutputHelper)
         => this.loggerManager = new TestLoggerManager(testOutputHelper);
 
     [Fact]
