@@ -1,5 +1,9 @@
 # Maris.Logging.Testing
 
+[![Apache License v2](https://img.shields.io/github/license/AlesInfiny/dotnet-libraries?style=for-the-badge&color=purple)][Apache License v2]
+[![Maris.Logging.Testing](https://img.shields.io/nuget/v/Maris.Logging.Testing?style=for-the-badge&logo=nuget)][NuGet Maris.Logging.Testing]
+[![Release date](https://img.shields.io/github/release-date/AlesInfiny/dotnet-libraries?style=for-the-badge&logo=github)][GitHub Release]
+
 [`Microsoft.Extensions.Logging.ILogger`][ILogger Web] または [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] の xUnit テストで利用可能なロガーを提供します。
 このロガーを使用すると、テスト対象クラスで出力したログを、 Visual Studio のテストエクスプローラー上で確認できるようになります。
 また [`Microsoft.Extensions.Logging.Testing.FakeLogger`][FakeLogger Web] と連携して、テストコード内でログ出力内容を検証する機能を提供します。
@@ -151,6 +155,8 @@ public class TestClass2
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
 [Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
 [Test explorer log image]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/images/test-explorer-log.png
+[GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
+[NuGet Maris.Logging.Testing]:https://www.nuget.org/packages/Maris.Logging.Testing
 [NuGet xUnit v3]:https://www.nuget.org/packages/xunit.v3.extensibility.core/
 [NuGet Diagnostics.Testing]:https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing
 [ASP.NET Core integration test]:https://learn.microsoft.com/ja-jp/aspnet/core/test/integration-tests
