@@ -86,8 +86,4 @@ public class TestClass
 
 テストエクスプローラーではテスト実行中に出力されたログが以下のように表示されます。
 
-<!-- 既存のPublicリポジトリ上の画像 -->
-![test-explorer-log](https://raw.githubusercontent.com/AlesInfiny/maris/refs/heads/main/documents/contents/assets/maris-logo.png)
-
-<!-- ![test-explorer-log](../../images/test-explorer-log.png) -->
 ![test-explorer-log](https://raw.githubusercontent.com/AlesInfiny/dotnet-libraries/refs/heads/main/images/test-explorer-log.png)
