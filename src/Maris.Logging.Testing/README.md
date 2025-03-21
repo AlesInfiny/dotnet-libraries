@@ -141,6 +141,10 @@ public class TestClass2
 
   ログ出力のテストを行うためのライブラリです。
 
+## ライセンス
+
+[Apache License Version 2.0][Apache License v2]
+
 [IHost Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.hosting.ihost
 [ILogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger
 [ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
@@ -150,3 +154,4 @@ public class TestClass2
 [NuGet xUnit v3]:https://www.nuget.org/packages/xunit.v3.extensibility.core/
 [NuGet Diagnostics.Testing]:https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing
 [ASP.NET Core integration test]:https://learn.microsoft.com/ja-jp/aspnet/core/test/integration-tests
+[Apache License v2]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/LICENSE
