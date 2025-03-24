@@ -50,9 +50,8 @@ jobs:
         shell: bash
         run: |
           brew install gsed
-          echo 'PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
+          echo 'export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
           source ~/.bashrc
-          echo $PATH
           sed --version
 
       - name: アプリケーションのビルド
