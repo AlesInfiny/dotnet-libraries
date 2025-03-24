@@ -50,7 +50,7 @@ jobs:
         shell: bash
         run: |
           brew install gsed
-          echo 'export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
+          echo "alias sed='gsed'" >> ~/.bashrc
           source ~/.bashrc
           sed --version
 
@@ -111,6 +111,9 @@ jobs:
         shell: bash
         # if: ${{ matrix.vm_image != 'macos-latest' }}
         run: |
+          if [ ${{ matrix.vm_image == 'macos-latest' }} ]; then
+            echo 'export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
+          fi
           sed --version
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
           sed -i s/'# Summary'/'Coverage report of ${{ matrix.framework_version }} on ${{ matrix.vm_image }}.'/g CoverageReport/SummaryGithub.md
