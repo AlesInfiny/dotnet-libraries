@@ -106,26 +106,15 @@ jobs:
     
       - name: コードカバレッジの結果表示
         shell: bash
-        # if: ${{ matrix.vm_image != 'macos-latest' }}
         run: |
           if [ ${{ matrix.vm_image == 'macos-latest' }} ]; then
             echo 'export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
             source ~/.bashrc
           fi
-          sed --version
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
           sed -i s/'# Summary'/'Coverage report of ${{ matrix.framework_version }} on ${{ matrix.vm_image }}.'/g CoverageReport/SummaryGithub.md
           sed -i -e '/^#/d' CoverageReport/SummaryGithub.md
           cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
-
-      # - name: コードカバレッジの結果表示
-      #   shell: bash
-      #   if: ${{ matrix.vm_image == 'macos-latest' }}
-      #   run: |
-      #     echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
-      #     gsed -i s/'# Summary'/'Coverage report of ${{ matrix.framework_version }} on ${{ matrix.vm_image }}.'/g CoverageReport/SummaryGithub.md
-      #     gsed -i -e '/^#/d' CoverageReport/SummaryGithub.md
-      #     cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
     
       - name: テスト結果のアップロード
         uses: actions/upload-artifact@v4
