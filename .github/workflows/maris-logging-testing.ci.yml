@@ -109,7 +109,7 @@ jobs:
         with:
           reports: '**/TestResults/coverage.cobertura.xml'
           targetdir: 'CoverageReport'
-          reporttypes: 'MarkdownSummaryGithub;Html'
+          reporttypes: 'MarkdownSummaryGithub;TextSummary'
     
       - name: コードカバレッジの結果表示
         shell: bash
@@ -135,7 +135,7 @@ jobs:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
           path: |
             tests/Maris.Logging.Testing.Tests/**/TestResults/
-            CoverageReport/index.html
+            CoverageReport/Summary.txt
   
       - name: 単体テスト結果の確認
         if: ${{ steps.create-test-result-report.outputs.conclusion == 'failure' }}
