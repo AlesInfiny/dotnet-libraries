@@ -53,6 +53,7 @@ jobs:
           echo 'PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
           source ~/.bashrc
           echo $PATH
+          sed --version
 
       - name: アプリケーションのビルド
         id: application-build
