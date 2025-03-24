@@ -108,8 +108,8 @@ jobs:
         uses: danielpalme/ReportGenerator-GitHub-Action@5
         with:
           reports: '**/TestResults/coverage.cobertura.xml'
-          targetdir: 'CoverageReport;Html'
-          reporttypes: 'MarkdownSummaryGithub'
+          targetdir: 'CoverageReport'
+          reporttypes: 'MarkdownSummaryGithub;Html'
     
       - name: コードカバレッジの結果表示
         shell: bash
