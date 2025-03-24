@@ -154,7 +154,7 @@ public class TestClass2
 [ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
 [FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
 [Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
-[Test explorer log image]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/images/test-explorer-log.png
+[Test explorer log image]:https://raw.githubusercontent.com/AlesInfiny/dotnet-libraries/refs/heads/main/images/test-explorer-log.png
 [GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
 [NuGet Maris.Logging.Testing]:https://www.nuget.org/packages/Maris.Logging.Testing
 [NuGet xUnit v3]:https://www.nuget.org/packages/xunit.v3.extensibility.core/
