@@ -133,13 +133,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
-          path: tests/Maris.Logging.Testing.Tests/**/TestResults/
-
-      - name: カバレッジレポートのアップロード
-        uses: actions/upload-artifact@v4
-        with:
-          name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
-          path: CoverageReport/
+          path: |
+            tests/Maris.Logging.Testing.Tests/**/TestResults/
+            CoverageReport/index.html
   
       - name: 単体テスト結果の確認
         if: ${{ steps.create-test-result-report.outputs.conclusion == 'failure' }}
