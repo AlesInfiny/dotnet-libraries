@@ -1,5 +1,9 @@
 name: maris-logging-testing CI
 
+permissions:
+  checks: write
+  contents: read
+
 on:
   pull_request:
     branches: [ "main" ]
