@@ -1,5 +1,8 @@
 name: Maris.Logging.Testing リリース
 
+permissions:
+  contents: write
+
 on:
   push:
     tags: 
