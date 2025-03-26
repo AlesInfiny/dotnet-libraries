@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       packaging_project_name: ${{ steps.matrix.outputs.packaging_project_name }}
+    permissions: {}
+    
     steps:
       - name: マトリクスの定義
         id: matrix
@@ -31,6 +33,8 @@ jobs:
       is_pre_release: ${{ steps.setup-variables.outputs.is_pre_release }}
       package_version: ${{ steps.setup-variables.outputs.package_version }}
       file_version: ${{ steps.setup-variables.outputs.file_version }}
+    permissions:
+      contents: read
 
     steps:
       - id: setup-variables
@@ -79,6 +83,7 @@ jobs:
       fail-fast: false
       matrix:
         packaging_project_name: ${{ fromJSON(needs.define-matrix.outputs.packaging_project_name) }}
+    permissions: {}
 
     steps:
       - name: ビルドアーティファクトのダウンロード
