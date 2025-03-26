@@ -1,0 +1,21 @@
+changelog:
+  categories:
+    - title: ':newspaper: Maris.Logging.Testing features'
+      labels:
+        - 'target: Maris.Logging.Testing'
+      exclude:
+        labels:
+          - dependencies
+          - 内部の改善
+    - title: ':label: :purple_circle: NuGet package dependencies'
+      labels:
+        - nuget
+    - title: ':label: Other dependencies'
+      labels:
+        - dependencies
+      exclude:
+        labels:
+          - nuget
+    - title: ':lollipop: improvements in development'
+      labels:
+        - 内部の改善
