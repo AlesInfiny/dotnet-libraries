@@ -1,0 +1,31 @@
+name: Add new issue/PR to project
+
+on:
+  issues:
+    types:
+      - opened
+
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue or PR to project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.AUTO_ADD_ISSUE_AND_PR_TO_PROJECT_APP_ID }}
+          private-key: ${{ secrets.AUTO_ADD_ISSUE_AND_PR_TO_PROJECT_APP_PEM }}
+
+      - name: Add to Project
+        env:
+          TOKEN: ${{ steps.generate-token.outputs.token }}
+        uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: ${{ secrets.PACKAGE_DEV_PROJECT_URL }}
+          github-token: ${{ env.TOKEN }}
