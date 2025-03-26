@@ -1,0 +1,21 @@
+changelog:
+  categories:
+    - title: ':newspaper: Maris.Logging.Testing features'
+      labels:
+        - 'target: Maris.Logging.Testing'
+      exclude:
+        labels:
+          - dependencies
+          - 内部の改善
+    - title: ':label: :white_circle: npm package dependencies'
+      labels:
+        - npm
+    - title: ':label: Other dependencies'
+      labels:
+        - dependencies
+      exclude:
+        labels:
+          - npm
+    - title: ':lollipop: improvements in development'
+      labels:
+        - 内部の改善

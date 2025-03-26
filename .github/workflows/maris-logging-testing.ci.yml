@@ -114,7 +114,7 @@ jobs:
       - name: コードカバレッジの結果表示
         shell: bash
         run: |
-          if [ ${{ matrix.vm_image == 'macos-latest' }} ]; then
+          if [ "${{ matrix.vm_image }}" = "macos-latest" ]; then
             echo 'export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"' >> ~/.bashrc
             source ~/.bashrc
           fi

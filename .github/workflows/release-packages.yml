@@ -1,8 +1,5 @@
 name: NuGet パッケージリリース
 
-permissions:
-  contents: write
-
 on:
   push:
     tags: 
@@ -100,8 +97,8 @@ jobs:
       - name: NuGet パッケージの公開結果表示
         shell: bash
         run: |
-          cat nuget_push_log.txt
           echo "# NuGet release info :toolbox:" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ matrix.packaging_project_name }}" >> $GITHUB_STEP_SUMMARY
           cat nuget_push_log.txt >> $GITHUB_STEP_SUMMARY
 
       - name: NuGet パッケージの公開結果判定
@@ -112,16 +109,12 @@ jobs:
     name: GitHub へのリリース
     runs-on: ubuntu-latest
     needs: [define-matrix, packaging, release-to-nuget]
-    strategy:
-      fail-fast: false
-      matrix:
-        packaging_project_name: ${{ fromJSON(needs.define-matrix.outputs.packaging_project_name) }}
+    permissions:
+      contents: write
 
     steps:
       - name: ビルドアーティファクトのダウンロード
         uses: actions/download-artifact@v4
-        with:
-          name: ${{ matrix.packaging_project_name }}
       
       - id: create-github-release
         name: GitHub のリリース作成
