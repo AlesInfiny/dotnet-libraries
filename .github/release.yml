@@ -7,15 +7,15 @@ changelog:
         labels:
           - dependencies
           - 内部の改善
-    - title: ':label: :white_circle: npm package dependencies'
+    - title: ':label: :purple_circle: NuGet package dependencies'
       labels:
-        - npm
+        - nuget
     - title: ':label: Other dependencies'
       labels:
         - dependencies
       exclude:
         labels:
-          - npm
+          - nuget
     - title: ':lollipop: improvements in development'
       labels:
         - 内部の改善
