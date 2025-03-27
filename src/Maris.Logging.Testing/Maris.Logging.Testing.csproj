@@ -3,7 +3,7 @@
     <PackageId>Maris.Logging.Testing</PackageId>
     <Authors>AlesInfiny</Authors>
     <Description>
-      Provides functionality to display log output in the test explorer and to verify the log output within the test code when the test object requires an ILogger object.
+      Provides functionality to display log output in Test Explorer and to verify the log output within the test code when the test object requires an ILogger object.
     </Description>
     <Copyright>Copyright (c) 2025 BIPROGY Inc.</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

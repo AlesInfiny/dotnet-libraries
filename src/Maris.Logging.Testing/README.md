@@ -1,32 +1,35 @@
+<!-- textlint-disable ja-technical-writing/sentence-length -->
 # Maris.Logging.Testing
 
 [![Apache License v2](https://img.shields.io/github/license/AlesInfiny/dotnet-libraries?style=for-the-badge&color=purple)][Apache License v2]
 [![Maris.Logging.Testing](https://img.shields.io/nuget/v/Maris.Logging.Testing?style=for-the-badge&logo=nuget)][NuGet Maris.Logging.Testing]
 [![Release date](https://img.shields.io/github/release-date/AlesInfiny/dotnet-libraries?style=for-the-badge&logo=github)][GitHub Release]
 
-[`Microsoft.Extensions.Logging.ILogger`][ILogger Web] または [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] の xUnit テストで利用可能なロガーを提供します。
-このロガーを使用すると、テスト対象クラスで出力したログを、 Visual Studio のテストエクスプローラー上で確認できるようになります。
-また [`Microsoft.Extensions.Logging.Testing.FakeLogger`][FakeLogger Web] と連携して、テストコード内でログ出力内容を検証する機能を提供します。
+[日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.Logging.Testing/README.ja.md)
 
-## インストール方法
+This library provides [`Microsoft.Extensions.Logging.ILogger`][ILogger Web] and [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] loggers which can be used in xUnit tests.
+You can check the log output from test classes on Visual Studio Test Explorer.
+This library also provides the functionality to verify the log output within the test code by integrating [`Microsoft.Extensions.Logging.Testing.FakeLogger`][FakeLogger Web].
 
-パッケージマネージャーコンソールまたはコマンドプロンプトで以下のコマンドを実行してインストールしてください。
+## Install
 
-- パッケージマネージャーコンソール
+Run the following command in Package Manager Console or Command Prompt to install `Maris.Logging.Testing`.
+
+- Package Manager Console
 
 ```winbatch
 Install-Package Maris.Logging.Testing
 ```
 
-- コマンドプロンプト
+- Command Prompt
 
 ```bash
 dotnet add package Maris.Logging.Testing
 ```
 
-## 使用方法
+## Usage
 
-以下のような `ILogger<TCategoryName>` のオブジェクトを必要とするクラスに対して、 xUnit のテストコードを記述する場合を考えます。
+Suppose you have a class that requires an `ILogger<TCategoryName>` object as shown below, and need to write xUnit test code for this class.
 
 ```csharp title="TestTarget.cs"
 using Microsoft.Extensions.Logging;
@@ -40,18 +43,17 @@ public class TestTarget
     public TestTarget(ILogger<TestTarget> logger)
         => this.Logger = logger;
     
-    // 省略
+    // ...
 }
 ```
 
-テストコードでテスト用のロガーを利用するためには、以下の手順で実装します。
+Follow these steps to use a test logger in the test code.
 
-1. [xUnit v3 のプロジェクトテンプレートをインストール][Install xUnit template] して、 `dotnet new xunit3` コマンドで xUnit v3 テストプロジェクトを作成します。
-1. xUnit のテストプロジェクトに `Maris.Logging.Testing` のパッケージをインストールします。
-1. テストクラスのコンストラクターを定義し、 `Xunit.ITestOutputHelper` インターフェースのオブジェクトを引数に取ります。
-1. コンストラクターで `Maris.Logging.Testing.Xunit.TestLoggerManager` のオブジェクトを生成し、フィールドに保存します。
-   `TestLoggerManager` のコンストラクターには `ITestOutputHelper` のオブジェクトを渡します。
-1. テストメソッド内で `TestLoggerManager` の `CreateLogger` メソッドを呼び出して、テスト対象クラスに渡す `ILogger` または `ILogger<TCategoryName>` のオブジェクトを生成します。
+1. [Install template for xUnit v3][Install xUnit template], and run `dotnet new xunit3` to create a unit test project.
+1. Install `Maris.Logging.Testing` in the unit test project.
+1. In the test class, define a constructor with a `Xunit.ITestOutputHelper` parameter.
+1. Create a `Maris.Logging.Testing.Xunit.TestLoggerManager` instance in the constructor, and store it in a field. Pass an `ITestOutputHelper` instance to the constructor of `TestLoggerManager`.
+1. Call `CreateLogger` method of `TestLoggerManager` in the test method to create an `ILogger` or `ILogger<TCategoryName>` instance which can be passed to the test class.
 
 ```csharp title="TestClass1.cs"
 using Maris.Logging.Testing.Xunit;
@@ -69,13 +71,13 @@ public class TestClass1
     [Fact]
     public void TestMethod()
     {
-        // ILogger<T> のオブジェクトを生成可能。
+        // Creates ILogger<T> instance
         var logger = this.loggerManager.CreateLogger<TestTarget>();
         var target = new TestTarget(logger);
 
         // Do something...
 
-        // TestLoggerManagerのLogCollectorプロパティはFakeLogger.Collectorを公開します
+        // TestLoggerManager.LogCollector exposes FakeLogger.Collector
         Assert.Equal(1, this.loggerManager.LogCollector.Count);  
         Assert.Equal("expectedCategory", this.loggerManager.LogCollector.LatestRecord.Category);
         Assert.Equal("expectedMessage", this.loggerManager.LogCollector.LatestRecord.Message);
@@ -83,9 +85,9 @@ public class TestClass1
 }
 ```
 
-[`Microsoft.Extensions.Hosting.IHost`][IHost Web] のテストを行う際は、 `AddTestLogging` メソッドを利用してテスト用のロガーを DI コンテナーに登録できます。
-`AddTestLogging` メソッドは `Microsoft.Extensions.DependencyInjection.TestLoggerServiceCollectionExtensions` クラスに定義されています。
-xUnit のテストコード例は以下のとおりです。
+When testing [`Microsoft.Extensions.Hosting.IHost`][IHost Web], `AddTestLogging` method can be used to register a test logger in the DI container.
+`AddTestLogging` method is defined in `Microsoft.Extensions.DependencyInjection.TestLoggerServiceCollectionExtensions` class.
+Here is an example of xUnit test code.
 
 ```csharp title="TestClass2.cs"
 using Microsoft.Extensions.DependencyInjection;
@@ -117,7 +119,7 @@ public class TestClass2
         var builder = Host.CreateDefaultBuilder();
         builder.ConfigureServices((context, services) =>
         {
-            // テスト用の Logger を登録
+            // Register a test logger
             services.AddTestLogging(this.loggerManager);
 
             // Do something...            
@@ -128,36 +130,36 @@ public class TestClass2
 }
 ```
 
-テストエクスプローラーではテスト実行中に出力されたログが以下のように表示されます。
+The log output during the test execution is displayed in Test Explorer as follows.
 
 ![test-explorer-log][Test explorer log image]
 
-詳細は [ASP.NET Core での統合テスト][ASP.NET Core integration test] を参照してください。
+For more details, see [Integration tests in ASP.NET Core][ASP.NET Core integration test].
 
-## 主な依存ライブラリ
+## Dependencies
 
 - [xunit.v3.extensibility.core][NuGet xUnit v3]
 
-  xUnit v3 の拡張機能を開発するためのパッケージです。
-  このライブラリは xUnit v3 で開発されたテストプロジェクトでのみ利用できます。
+  The package used for developing xUnit v3 extensions.
+  `Maris.Logging.Testing` only supports the unit test project with xUnit v3.
 
 - [Microsoft.Extensions.Diagnostics.Testing][NuGet Diagnostics.Testing]
 
-  ログ出力のテストを行うためのライブラリです。
+  The library for testing log output.
 
-## ライセンス
+## License
 
 [Apache License Version 2.0][Apache License v2]
 
-[IHost Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.hosting.ihost
-[ILogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger
-[ILogger-T Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.ilogger-1
-[FakeLogger Web]:https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.testing.fakelogger
+[IHost Web]:https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihost
+[ILogger Web]:https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger
+[ILogger-T Web]:https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger-1
+[FakeLogger Web]:https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.testing.fakelogger
 [Install xUnit template]:https://xunit.net/docs/getting-started/v3/cmdline#install-the-net-sdk-templates
-[Test explorer log image]:https://raw.githubusercontent.com/AlesInfiny/dotnet-libraries/refs/heads/main/images/test-explorer-log.png
+[Test explorer log image]:https://raw.githubusercontent.com/AlesInfiny/dotnet-libraries/refs/heads/main/images/test-explorer-log.en.png
 [GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
 [NuGet Maris.Logging.Testing]:https://www.nuget.org/packages/Maris.Logging.Testing
 [NuGet xUnit v3]:https://www.nuget.org/packages/xunit.v3.extensibility.core/
 [NuGet Diagnostics.Testing]:https://www.nuget.org/packages/Microsoft.Extensions.Diagnostics.Testing
-[ASP.NET Core integration test]:https://learn.microsoft.com/ja-jp/aspnet/core/test/integration-tests
+[ASP.NET Core integration test]:https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests
 [Apache License v2]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/LICENSE
