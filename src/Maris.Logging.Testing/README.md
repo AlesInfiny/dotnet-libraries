@@ -7,7 +7,7 @@
 
 [日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.Logging.Testing/README.ja.md)
 
-This library provides [`Microsoft.Extensions.Logging.ILogger`][ILogger Web] and [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] loggers which can be used in xUnit tests.
+This library provides [`Microsoft.Extensions.Logging.ILogger`][ILogger Web] and [`Microsoft.Extensions.Logging.ILogger<TCategoryName>`][ILogger-T Web] instances which can be used in xUnit tests.
 You can check the log output from test classes on Visual Studio Test Explorer.
 This library also provides the functionality to verify the log output within the test code by integrating [`Microsoft.Extensions.Logging.Testing.FakeLogger`][FakeLogger Web].
 
@@ -29,7 +29,7 @@ dotnet add package Maris.Logging.Testing
 
 ## Usage
 
-Suppose you have a class that requires an `ILogger<TCategoryName>` object as shown below, and need to write xUnit test code for this class.
+Suppose you have a class that requires an `ILogger<TCategoryName>` instance as shown below, and need to write xUnit test code for this class.
 
 ```csharp title="TestTarget.cs"
 using Microsoft.Extensions.Logging;
