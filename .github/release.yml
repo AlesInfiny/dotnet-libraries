@@ -1,6 +1,6 @@
 changelog:
   categories:
-    - title: ':newspaper: Maris.Logging.Testing features'
+    - title: ':newspaper: [Maris.Logging.Testing](https://www.nuget.org/packages/Maris.Logging.Testing) features'
       labels:
         - 'target: Maris.Logging.Testing'
       exclude:
