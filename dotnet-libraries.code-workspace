@@ -1,0 +1,24 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "tableformatter.common.centerAlignedHeader": false,
+        "markdownlint.customRules": [
+            "./custom-lint-rules/requires-title-and-description.js"
+        ],
+        "files.eol": "\n"
+    },
+    "extensions": {
+        "recommendations": [
+            "bierner.markdown-mermaid",
+            "davidanson.vscode-markdownlint",
+            "hediet.vscode-drawio",
+            "shuworks.vscode-table-formatter",
+            "3w36zj6.textlint",
+            "yzhang.markdown-all-in-one"
+        ]
+    }
+}
