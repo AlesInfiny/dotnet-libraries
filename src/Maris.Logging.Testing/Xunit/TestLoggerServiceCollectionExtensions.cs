@@ -22,8 +22,16 @@ public static class TestLoggerServiceCollectionExtensions
     /// </exception>
     public static IServiceCollection AddTestLogging(this IServiceCollection services, TestLoggerManager loggerManager)
     {
-        ArgumentNullException.ThrowIfNull(services);
-        ArgumentNullException.ThrowIfNull(loggerManager);
+        if (services is null)
+        {
+            throw new ArgumentNullException(nameof(services));
+        }
+
+        if (loggerManager is null)
+        {
+            throw new ArgumentNullException(nameof(loggerManager));
+        }
+
         services.AddLogging(builder =>
         {
             builder.AddXunitLogging(loggerManager);
