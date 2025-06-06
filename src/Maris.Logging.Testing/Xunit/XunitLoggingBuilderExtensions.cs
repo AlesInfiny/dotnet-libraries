@@ -21,8 +21,16 @@ public static class XunitLoggingBuilderExtensions
     /// </exception>
     public static ILoggingBuilder AddXunitLogging(this ILoggingBuilder builder, TestLoggerManager loggerManager)
     {
-        ArgumentNullException.ThrowIfNull(builder);
-        ArgumentNullException.ThrowIfNull(loggerManager);
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (loggerManager is null)
+        {
+            throw new ArgumentNullException(nameof(loggerManager));
+        }
+
         builder.AddProvider(loggerManager.XunitLoggerProvider);
         return builder;
     }
