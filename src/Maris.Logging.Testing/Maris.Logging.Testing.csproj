@@ -15,8 +15,6 @@
     <RepositoryUrl>https://github.com/AlesInfiny/dotnet-libraries.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryBranch>main</RepositoryBranch>
-    <NoWarn>NU1701</NoWarn>
-    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <ItemGroup>
