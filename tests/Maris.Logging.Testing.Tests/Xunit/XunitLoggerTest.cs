@@ -10,7 +10,7 @@ public class XunitLoggerTest
         get
         {
             var data = new TheoryData<LogLevel>();
-            foreach (var logLevel in Enum.GetValues<LogLevel>())
+            foreach (LogLevel logLevel in Enum.GetValues(typeof(LogLevel)))
             {
                 data.Add(logLevel);
             }

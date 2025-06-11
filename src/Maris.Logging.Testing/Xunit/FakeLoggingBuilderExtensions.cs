@@ -22,8 +22,16 @@ public static class FakeLoggingBuilderExtensions
     /// </exception>
     public static ILoggingBuilder AddFakeLogging(this ILoggingBuilder builder, TestLoggerManager loggerManager)
     {
-        ArgumentNullException.ThrowIfNull(builder);
-        ArgumentNullException.ThrowIfNull(loggerManager);
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (loggerManager is null)
+        {
+            throw new ArgumentNullException(nameof(loggerManager));
+        }
+
         builder.AddProvider(loggerManager.FakeLoggerProvider);
         return builder;
     }
