@@ -95,7 +95,7 @@ jobs:
 
     steps:
       - name: ビルドアーティファクトのダウンロード
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ matrix.packaging_project_name }}
 
@@ -126,7 +126,7 @@ jobs:
 
     steps:
       - name: ビルドアーティファクトのダウンロード
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
       
       - id: create-github-release
         name: GitHub のリリース作成
