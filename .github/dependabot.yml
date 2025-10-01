@@ -1,22 +1,38 @@
+# cspell:ignore cooldown
+
 version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/.github/workflows"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: "github-actions"
     labels:
       - "CI/CD"
       - "dependencies"
+    groups:
+      github-actions-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     commit-message:
       prefix: "npm-root"
     labels:
       - "npm"
       - "dependencies"
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
