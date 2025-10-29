@@ -91,7 +91,8 @@ jobs:
       fail-fast: false
       matrix:
         packaging_project_name: ${{ fromJSON(needs.define-matrix.outputs.packaging_project_name) }}
-    permissions: {}
+    permissions:
+      id-token: write # GitHub の OIDC トークン発行を許可します。
 
     steps:
       - name: ビルドアーティファクトのダウンロード
@@ -99,14 +100,20 @@ jobs:
         with:
           name: ${{ matrix.packaging_project_name }}
 
+      - name: NuGet に OIDC ログインして一時 API キーを発行
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: NuGet パッケージの公開
         id: release-to-nuget
         continue-on-error: true
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           NUGET_SOURCE: https://api.nuget.org/v3/index.json
-        run: dotnet nuget push ${{ matrix.packaging_project_name }}.${{ needs.packaging.outputs.file_version }}.nupkg --api-key $NUGET_API_KEY --source $NUGET_SOURCE > nuget_push_log.txt
-          
+        run: dotnet nuget push ${{ matrix.packaging_project_name }}.${{ needs.packaging.outputs.file_version }}.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source $NUGET_SOURCE > nuget_push_log.txt
+
       - name: NuGet パッケージの公開結果表示
         shell: bash
         run: |
