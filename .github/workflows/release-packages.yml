@@ -111,7 +111,6 @@ jobs:
         id: release-to-nuget
         continue-on-error: true
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           NUGET_SOURCE: https://api.nuget.org/v3/index.json
         run: dotnet nuget push ${{ matrix.packaging_project_name }}.${{ needs.packaging.outputs.file_version }}.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source $NUGET_SOURCE > nuget_push_log.txt
 
