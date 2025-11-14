@@ -132,21 +132,15 @@ jobs:
       contents: write
 
     steps:
-      - name: ビルドアーティファクトのダウンロード
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
-      
       - id: create-github-release
         name: GitHub のリリース作成
         uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
         with:
-          files: |
-            **/*.nupkg
-            **/*.snupkg
           generate_release_notes: true
           name: "${{ needs.packaging.outputs.package_version }}"
           prerelease: ${{ needs.packaging.outputs.is_pre_release }}
           tag_name: "${{ needs.packaging.outputs.package_version }}"
-      
+
       - name: GitHub のリリース結果表示
         run: |
           echo "Is pre-release:${{ needs.packaging.outputs.is_pre_release }}"
