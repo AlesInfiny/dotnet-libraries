@@ -1,37 +1,44 @@
-﻿using Maris.Logging.Testing.Xunit;
+﻿using System.Diagnostics.CodeAnalysis;
+using Maris.Logging.Testing.Xunit;
 
 namespace Microsoft.Extensions.Logging;
 
 /// <summary>
 ///  Xunit で使用可能な <see cref="ILogger"/> を登録する処理を提供します。
 /// </summary>
+[SuppressMessage(
+    category: "StyleCop.CSharp.ReadabilityRules",
+    checkId: "SA1101:PrefixLocalCallsWithThis",
+    Justification = "StyleCop bug. see: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/3954")]
 public static class XunitLoggingBuilderExtensions
 {
-    /// <summary>
-    ///  <paramref name="builder"/> に Xunit の <see cref="ILoggerProvider"/> を追加します。
-    /// </summary>
-    /// <param name="builder">Xunit の <see cref="ILoggerProvider"/> 追加する <see cref="ILoggingBuilder"/> 。</param>
-    /// <param name="loggerManager">Xunit で利用できる <see cref="ILogger"/> を管理する <see cref="TestLoggerManager"/> 。</param>
-    /// <returns><see cref="ILoggingBuilder"/> 。</returns>
-    /// <exception cref="ArgumentNullException">
-    ///  <list type="bullet">
-    ///   <item><paramref name="builder"/> が <see langword="null"/> です。</item>
-    ///   <item><paramref name="loggerManager"/> が <see langword="null"/> です。</item>
-    ///  </list>
-    /// </exception>
-    public static ILoggingBuilder AddXunitLogging(this ILoggingBuilder builder, TestLoggerManager loggerManager)
+    extension(ILoggingBuilder builder)
     {
-        if (builder is null)
+        /// <summary>
+        ///  <see cref="ILoggingBuilder"/> に Xunit の <see cref="ILoggerProvider"/> を追加します。
+        /// </summary>
+        /// <param name="loggerManager">Xunit で利用できる <see cref="ILogger"/> を管理する <see cref="TestLoggerManager"/> 。</param>
+        /// <returns><see cref="ILoggingBuilder"/> 。</returns>
+        /// <exception cref="ArgumentNullException">
+        ///  <list type="bullet">
+        ///   <item><see cref="ILoggingBuilder"/> が <see langword="null"/> です。</item>
+        ///   <item><paramref name="loggerManager"/> が <see langword="null"/> です。</item>
+        ///  </list>
+        /// </exception>
+        public ILoggingBuilder AddXunitLogging(TestLoggerManager loggerManager)
         {
-            throw new ArgumentNullException(nameof(builder));
-        }
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
-        if (loggerManager is null)
-        {
-            throw new ArgumentNullException(nameof(loggerManager));
-        }
+            if (loggerManager is null)
+            {
+                throw new ArgumentNullException(nameof(loggerManager));
+            }
 
-        builder.AddProvider(loggerManager.XunitLoggerProvider);
-        return builder;
+            builder.AddProvider(loggerManager.XunitLoggerProvider);
+            return builder;
+        }
     }
 }
