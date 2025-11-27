@@ -90,7 +90,7 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test tests/Maris.Logging.Testing.Tests/ --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
+          dotnet test --project tests/Maris.Logging.Testing.Tests/Maris.Logging.Testing.Tests.csproj --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
 
       - id: create-test-result-report
         name: テスト結果ページの作成
