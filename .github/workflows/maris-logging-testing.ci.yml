@@ -1,4 +1,4 @@
-name: maris-logging-testing CI
+name: Maris.Logging.Testing CI
 
 permissions:
   checks: write
