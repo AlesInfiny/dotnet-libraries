@@ -11,6 +11,7 @@
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
+    <Project Path="tests/Maris.ComponentModel.Annotations.Tests/Maris.ComponentModel.Annotations.Tests.csproj" />
     <Project Path="tests/Maris.Logging.Testing.Tests/Maris.Logging.Testing.Tests.csproj" />
   </Folder>
 </Solution>
