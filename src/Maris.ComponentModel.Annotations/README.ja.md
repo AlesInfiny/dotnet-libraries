@@ -30,7 +30,7 @@ dotnet add package Maris.ComponentModel.Annotations
 
 列挙型の各項目に対して設定した表示名を取得できます。
 列挙型の各値に対する表示名は、 [`DisplayAttribute`][DisplayAttribute Web] を用いて設定します。
-リソースファイルに表示名を定義することも可能です。
+リソースファイルからも、表示名を取得できます。
 
 ```csharp
 using Maris.ComponentModel;
