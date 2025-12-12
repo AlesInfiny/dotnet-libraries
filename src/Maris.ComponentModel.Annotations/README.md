@@ -59,6 +59,10 @@ By referencing the `Maris.ComponentModel` namespace, the `GetDisplayName()` meth
 
 ## Dependencies
 
+- [System.ComponentModel.Annotations][NuGet System.ComponentModel.Annotations]
+
+  `System.ComponentModel.Annotations` that provides attributes for defining object metadata.
+
 ## License
 
 [Apache License Version 2.0][Apache License v2]
@@ -67,3 +71,4 @@ By referencing the `Maris.ComponentModel` namespace, the `GetDisplayName()` meth
 [NuGet Maris.ComponentModel.Annotations]:https://www.nuget.org/packages/Maris.ComponentModel.Annotations
 [GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
 [DisplayAttribute Web]:https://learn.microsoft.com/ja-jp/dotnet/api/system.componentmodel.dataannotations.displayattribute
+[NuGet System.ComponentModel.Annotations]:https://www.nuget.org/packages/System.ComponentModel.Annotations/

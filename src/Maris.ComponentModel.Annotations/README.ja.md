@@ -58,6 +58,10 @@ Console.WriteLine(Status.Done.GetDisplayName());       // Output: Done
 
 ## 主な依存ライブラリ
 
+- [System.ComponentModel.Annotations][NuGet System.ComponentModel.Annotations]
+
+  オブジェクトのメタデータを定義するための属性を提供するパッケージです。
+
 ## ライセンス
 
 [Apache License Version 2.0][Apache License v2]
@@ -66,3 +70,4 @@ Console.WriteLine(Status.Done.GetDisplayName());       // Output: Done
 [NuGet Maris.ComponentModel.Annotations]:https://www.nuget.org/packages/Maris.ComponentModel.Annotations
 [GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
 [DisplayAttribute Web]:https://learn.microsoft.com/ja-jp/dotnet/api/system.componentmodel.dataannotations.displayattribute
+[NuGet System.ComponentModel.Annotations]:https://www.nuget.org/packages/System.ComponentModel.Annotations/
