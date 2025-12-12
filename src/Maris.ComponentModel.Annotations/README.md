@@ -2,7 +2,7 @@
 # Maris.ComponentModel.Annotations
 
 [![Apache License v2](https://img.shields.io/github/license/AlesInfiny/dotnet-libraries?style=for-the-badge&color=purple)][Apache License v2]
-[![Maris.Logging.Testing](https://img.shields.io/nuget/v/Maris.ComponentModel.Annotations?style=for-the-badge&logo=nuget)][NuGet Maris.ComponentModel.Annotations]
+[![Maris.ComponentModel.Annotations](https://img.shields.io/nuget/v/Maris.ComponentModel.Annotations?style=for-the-badge&logo=nuget)][NuGet Maris.ComponentModel.Annotations]
 [![Release date](https://img.shields.io/github/release-date/AlesInfiny/dotnet-libraries?style=for-the-badge&logo=github)][GitHub Release]
 
 [日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.ComponentModel.Annotations/README.ja.md)
