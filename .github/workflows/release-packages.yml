@@ -18,7 +18,7 @@ jobs:
       - name: マトリクスの定義
         id: matrix
         run: |
-          echo 'packaging_project_name=["Maris.Logging.Testing"]' >> "$GITHUB_OUTPUT"
+          echo 'packaging_project_name=["Maris.Logging.Testing", "Maris.ComponentModel.Annotations"]' >> "$GITHUB_OUTPUT"
 
   packaging:
     name: パッケージング
