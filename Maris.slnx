@@ -6,6 +6,7 @@
   </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
+    <Project Path="src/Maris.ComponentModel.Annotations/Maris.ComponentModel.Annotations.csproj" />
     <Project Path="src/Maris.Logging.Testing/Maris.Logging.Testing.csproj" />
   </Folder>
   <Folder Name="/tests/">
