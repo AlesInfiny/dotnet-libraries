@@ -12,7 +12,7 @@ on:
       - 'tests/Maris.ComponentModel.Annotations.Tests/**'
       - '.github/workflows/maris-component-model-annotations.ci.yml'
       - '**/Directory.Build.props'
-      - '**/Directory.Package.props'
+      - '**/Directory.Packages.props'
       - '**/global.json'
       - '**/.editorconfig'
       - '**/stylecop.json'

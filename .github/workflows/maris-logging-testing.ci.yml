@@ -12,7 +12,7 @@ on:
       - 'tests/Maris.Logging.Testing.Tests/**'
       - '.github/workflows/maris-logging-testing.ci.yml'
       - '**/Directory.Build.props'
-      - '**/Directory.Package.props'
+      - '**/Directory.Packages.props'
       - '**/global.json'
       - '**/.editorconfig'
       - '**/stylecop.json'
