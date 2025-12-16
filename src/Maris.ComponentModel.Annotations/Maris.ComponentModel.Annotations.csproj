@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Maris.ComponentModel.Annotations</PackageId>
+    <Authors>AlesInfiny</Authors>
+    <Description>
+      Maris.ComponentModel.Annotations provides additional functionality for System.ComponentModel.Annotations.
+    </Description>
+    <Copyright>Copyright (c) 2025 BIPROGY Inc.</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/AlesInfiny/dotnet-libraries</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>https://github.com/AlesInfiny/dotnet-libraries/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/AlesInfiny/dotnet-libraries.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <RootNamespace>Maris.ComponentModel</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="../../images/icon.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Maris.ComponentModel.Annotations.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" />
+  </ItemGroup>
+
+</Project>

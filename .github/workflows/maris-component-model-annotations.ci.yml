@@ -1,4 +1,4 @@
-name: Maris.Logging.Testing CI
+name: Maris.ComponentModel.Annotations CI
 
 permissions:
   checks: write
@@ -8,9 +8,9 @@ on:
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'src/Maris.Logging.Testing/**'
-      - 'tests/Maris.Logging.Testing.Tests/**'
-      - '.github/workflows/maris-logging-testing.ci.yml'
+      - 'src/Maris.ComponentModel.Annotations/**'
+      - 'tests/Maris.ComponentModel.Annotations.Tests/**'
+      - '.github/workflows/maris-component-model-annotations.ci.yml'
       - '**/Directory.Build.props'
       - '**/Directory.Packages.props'
       - '**/global.json'
@@ -67,8 +67,8 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Build Result :gear:' >> $GITHUB_STEP_SUMMARY
-          dotnet build src/Maris.Logging.Testing/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
-          dotnet build tests/Maris.Logging.Testing.Tests/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --verbosity minimal >> build-result.txt
+          dotnet build src/Maris.ComponentModel.Annotations/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
+          dotnet build tests/Maris.ComponentModel.Annotations.Tests/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --verbosity minimal >> build-result.txt
           echo ':heavy_check_mark: アプリケーションのビルドに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat build-result.txt >> $GITHUB_STEP_SUMMARY
@@ -90,14 +90,14 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test --project tests/Maris.Logging.Testing.Tests/Maris.Logging.Testing.Tests.csproj --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename Maris.Logging.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
+          dotnet test --project tests/Maris.ComponentModel.Annotations.Tests/Maris.ComponentModel.Annotations.Tests.csproj --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename Maris.ComponentModel.Annotations-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
 
       - id: create-test-result-report
         name: テスト結果ページの作成
         uses: dorny/test-reporter@7b7927aa7da8b82e81e755810cb51f39941a2cc7 # v2.2.0
         with:
           name: 'Test results ${{ matrix.framework_version }} on ${{ matrix.vm_image }}'
-          path: '**/TestResults/Maris.Logging.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
+          path: '**/TestResults/Maris.ComponentModel.Annotations-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
           path-replace-backslashes: 'true'
           reporter: 'dotnet-trx'
           only-summary: 'false'
@@ -134,7 +134,7 @@ jobs:
         with:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
           path: |
-            tests/Maris.Logging.Testing.Tests/**/TestResults/
+            tests/Maris.ComponentModel.Annotations.Tests/**/TestResults/
             CoverageReport/Summary.txt
   
       - name: 単体テスト結果の確認
