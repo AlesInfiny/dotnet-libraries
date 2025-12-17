@@ -7,6 +7,13 @@ changelog:
         labels:
           - dependencies
           - 内部の改善
+    - title: ':newspaper: [Maris.ComponentModel.Annotations](https://www.nuget.org/packages/Maris.ComponentModel.Annotations) features'
+      labels:
+        - 'target: Maris.ComponentModel.Annotations'
+      exclude:
+        labels:
+          - dependencies
+          - 内部の改善
     - title: ':label: :purple_circle: NuGet package dependencies'
       labels:
         - nuget
