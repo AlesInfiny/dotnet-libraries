@@ -42,12 +42,12 @@ jobs:
   
     steps:
       - name: ブランチのチェックアウト
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 1
   
       - name: dotnet SDK のセットアップ
-        uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d # v5.0.0
+        uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
         with:
           dotnet-version: |
             8.0.x
@@ -94,7 +94,7 @@ jobs:
 
       - id: create-test-result-report
         name: テスト結果ページの作成
-        uses: dorny/test-reporter@7b7927aa7da8b82e81e755810cb51f39941a2cc7 # v2.2.0
+        uses: dorny/test-reporter@fe45e9537387dac839af0d33ba56eed8e24189e8 # v2.3.0
         with:
           name: 'Test results ${{ matrix.framework_version }} on ${{ matrix.vm_image }}'
           path: '**/TestResults/Maris.ComponentModel.Annotations-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
@@ -111,7 +111,7 @@ jobs:
 
       - id: create-coverage-report
         name: コードカバレッジレポートの解析
-        uses: danielpalme/ReportGenerator-GitHub-Action@dcdfb6e704e87df6b2ed0cf123a6c9f69e364869 # v5.5.0
+        uses: danielpalme/ReportGenerator-GitHub-Action@ee0ae774f6d3afedcbd1683c1ab21b83670bdf8e # v5.5.1
         with:
           reports: '**/TestResults/coverage.cobertura.xml'
           targetdir: 'CoverageReport'
