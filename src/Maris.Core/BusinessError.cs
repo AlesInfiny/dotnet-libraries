@@ -8,7 +8,7 @@ namespace Maris.Core;
 /// </summary>
 public class BusinessError
 {
-    private List<ErrorMessage> errorMessages = [];
+    private readonly List<ErrorMessage> errorMessages = [];
 
     /// <summary>
     ///  <see cref="BusinessError"/> クラスの新しいインスタンスを初期化します。
