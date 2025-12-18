@@ -3,6 +3,29 @@
 public class BusinessExceptionTest
 {
     [Fact]
+    public void BusinessErrors_ReturnsAddedBusinessErrors()
+    {
+        // Arrange
+        string exceptionId1 = "ERR_CODE1";
+        string exceptionId2 = "ERR_CODE2";
+        ErrorMessage errorMessage1 = new ErrorMessage("ERROR_MESSAGE1");
+        ErrorMessage errorMessage2 = new ErrorMessage("ERROR_MESSAGE2");
+        BusinessError businessError1 = new BusinessError(exceptionId1, errorMessage1);
+        BusinessError businessError2 = new BusinessError(exceptionId2, errorMessage2);
+        var businessEx = new BusinessException(businessError1);
+        businessEx.AddOrMergeError(businessError2);
+
+        // Act
+        var businessErrors = businessEx.BusinessErrors.ToList();
+
+        // Assert
+        Assert.Collection(
+            businessErrors,
+            error => Assert.Equal(businessError1, error),
+            error => Assert.Equal(businessError2, error));
+    }
+
+    [Fact]
     public void ToString_BusinessErrorList_ConvertedToString()
     {
         // Arrange

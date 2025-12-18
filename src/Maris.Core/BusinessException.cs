@@ -51,7 +51,7 @@ public class BusinessException : Exception
     /// <summary>
     ///  この例外オブジェクトの保持する業務エラーの情報を取得します。
     /// </summary>
-    public IEnumerable<BusinessError> GetBusinessErrors => this.businessErrors;
+    public IEnumerable<BusinessError> BusinessErrors => this.businessErrors;
 
     /// <summary>
     ///  この例外オブジェクトの保持するエラーコードとエラーメッセージのリストを取得します。
