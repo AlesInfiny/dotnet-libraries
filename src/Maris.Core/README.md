@@ -62,7 +62,7 @@ throw exception;
 // Retrieve error information
 foreach (var error in exception.GetErrors())
 {
-    Console.WriteLine($"{error.ErrorMessage}: {error.ErrorMessage}");
+    Console.WriteLine($"{error.ExceptionId}: {error.ErrorMessage}");
 }
 ```
 
