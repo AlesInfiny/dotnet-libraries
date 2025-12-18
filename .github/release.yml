@@ -1,8 +1,8 @@
 changelog:
   categories:
-    - title: ':newspaper: [Maris.Logging.Testing](https://www.nuget.org/packages/Maris.Logging.Testing) features'
+    - title: ':newspaper: [Maris.Core](https://www.nuget.org/packages/Maris.Core) features'
       labels:
-        - 'target: Maris.Logging.Testing'
+        - 'target: Maris.Core'
       exclude:
         labels:
           - dependencies
@@ -10,6 +10,13 @@ changelog:
     - title: ':newspaper: [Maris.ComponentModel.Annotations](https://www.nuget.org/packages/Maris.ComponentModel.Annotations) features'
       labels:
         - 'target: Maris.ComponentModel.Annotations'
+      exclude:
+        labels:
+          - dependencies
+          - 内部の改善
+    - title: ':newspaper: [Maris.Logging.Testing](https://www.nuget.org/packages/Maris.Logging.Testing) features'
+      labels:
+        - 'target: Maris.Logging.Testing'
       exclude:
         labels:
           - dependencies
