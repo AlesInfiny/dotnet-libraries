@@ -1,74 +1,82 @@
 <!-- textlint-disable ja-technical-writing/sentence-length -->
-# Maris.ComponentModel.Annotations
+# Maris.Core
 
 [![Apache License v2](https://img.shields.io/github/license/AlesInfiny/dotnet-libraries?style=for-the-badge&color=purple)][Apache License v2]
-[![Maris.ComponentModel.Annotations](https://img.shields.io/nuget/v/Maris.ComponentModel.Annotations?style=for-the-badge&logo=nuget)][NuGet Maris.ComponentModel.Annotations]
+[![Maris.Core](https://img.shields.io/nuget/v/Maris.Core?style=for-the-badge&logo=nuget)][NuGet Maris.Core]
 [![Release date](https://img.shields.io/github/release-date/AlesInfiny/dotnet-libraries?style=for-the-badge&logo=github)][GitHub Release]
 
-[日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.ComponentModel.Annotations/README.ja.md)
+[日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.Core/README.ja.md)
 
-Provides common libraries useful for .NET enterprise system development.
+Provides core libraries for .NET business application development.
 
 ## Install
 
-Run the following command in Package Manager Console or Command Prompt to install `Maris.ComponentModel.Annotations`.
+Run the following command in Package Manager Console or Command Prompt to install `Maris.Core`.
 
 - Package Manager Console
 
 ```winbatch
-Install-Package Maris.ComponentModel.Annotations
+Install-Package Maris.Core
 ```
 
 - Command Prompt
 
 ```bash
-dotnet add package Maris.ComponentModel.Annotations
+dotnet add package Maris.Core
 ```
 
 ## Usage
 
-### Retrieve display name of enumeration
+### Handling Business Errors
 
-You can retrieve the display name configured for each item of an enumeration.
-Display names for each enumeration value are set using [DisplayAttribute][DisplayAttribute Web].
-It is also possible to define display names in resource files.
+You can handle errors that occur in business logic in a structured way.
+Define error information with the `BusinessError` class and throw it using the `BusinessException` exception class.
 
 ```csharp
-using Maris.ComponentModel;
+using Maris.Core;
 
-public enum Status
-{
-    [Display(Name = "Preparation is ready.")]
-    Ready = 1,
+// Create error messages
+var errorMessage1 = new ErrorMessage("Product code {0} does not exist.", "P001");
+var errorMessage2 = new ErrorMessage("Insufficient stock.");
 
-    [Display(
-        ResourceType = typeof(EnumExtensionsTestResources),
-        Name = nameof(EnumExtensionsTestResources.InProgress))]
-    InProgress = 2,
+// Create business error
+var businessError = new BusinessError("ERR001", errorMessage1, errorMessage2);
 
-    Done = 3,
-}
-
-Console.WriteLine(Status.Ready.GetDisplayName());      // Output: Preparation is ready.
-Console.WriteLine(Status.InProgress.GetDisplayName()); // Output: Work is in progress.
-Console.WriteLine(Status.Done.GetDisplayName());       // Output: Done
+// Throw business exception
+throw new BusinessException(businessError);
 ```
 
-Display names are retrieved using the `GetDisplayName()` extension method.
-By referencing the `Maris.ComponentModel` namespace, the `GetDisplayName()` method becomes available.
+You can also handle multiple business errors together.
+
+```csharp
+using Maris.Core;
+
+// Create multiple business errors
+var error1 = new BusinessError("ERR001", new ErrorMessage("Input error."));
+var error2 = new BusinessError("ERR002", new ErrorMessage("Validation error."));
+
+// Throw multiple errors together
+var exception = new BusinessException(error1, error2);
+throw exception;
+
+// Retrieve error information
+foreach (var error in exception.GetErrors())
+{
+    Console.WriteLine($"{error.ErrorMessage}: {error.ErrorMessage}");
+}
+```
 
 ## Dependencies
 
-- [System.ComponentModel.Annotations][NuGet System.ComponentModel.Annotations]
+- [System.Text.Json][NuGet System.Text.Json] (.NET Framework 4.7.2 only)
 
-  `System.ComponentModel.Annotations` that provides attributes for defining object metadata.
+  A package that provides JSON serialization and deserialization.
 
 ## License
 
 [Apache License Version 2.0][Apache License v2]
 
 [Apache License v2]:https://github.com/AlesInfiny/dotnet-libraries/blob/main/LICENSE
-[NuGet Maris.ComponentModel.Annotations]:https://www.nuget.org/packages/Maris.ComponentModel.Annotations
+[NuGet Maris.Core]:https://www.nuget.org/packages/Maris.Core
 [GitHub Release]:https://github.com/AlesInfiny/dotnet-libraries/releases
-[DisplayAttribute Web]:https://learn.microsoft.com/ja-jp/dotnet/api/system.componentmodel.dataannotations.displayattribute
-[NuGet System.ComponentModel.Annotations]:https://www.nuget.org/packages/System.ComponentModel.Annotations/
+[NuGet System.Text.Json]:https://www.nuget.org/packages/System.Text.Json/
