@@ -1,0 +1,81 @@
+﻿namespace Maris.Core.Tests;
+
+public class BusinessErrorCollectionTest
+{
+    [Fact]
+    public void AddOrMerge_AddingNull_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var errors = new BusinessErrorCollection();
+        BusinessError? newBusinessError = null;
+
+        // Act
+        var action = () => errors.AddOrMerge(newBusinessError!);
+
+        // Assert
+        Assert.Throws<ArgumentNullException>("newBusinessError", action);
+    }
+
+    [Fact]
+    public void AddOrMerge_ErrorCodeNotInCollection_AddsNewError()
+    {
+        // Arrange
+        var errors = new BusinessErrorCollection();
+        string exceptionId = "ERR_CODE";
+        ErrorMessage errorMessage = new ErrorMessage("ERROR_MESSAGE");
+        BusinessError newBusinessError = new BusinessError(exceptionId, errorMessage);
+
+        // Act
+        errors.AddOrMerge(newBusinessError);
+
+        // Assert
+        var error = Assert.Single(errors, error => error.ExceptionId == exceptionId);
+        Assert.Single(error.ErrorMessages, e => e.Message == errorMessage.Message);
+    }
+
+    [Fact]
+    public void AddOrMerge_ErrorCodeAlreadyInCollection_MergesErrors()
+    {
+        // Arrange
+        var errors = new BusinessErrorCollection();
+        string exceptionId = "ERR_CODE";
+        ErrorMessage errorMessage1 = new ErrorMessage("ERROR_MESSAGE1");
+        ErrorMessage errorMessage2 = new ErrorMessage("ERROR_MESSAGE2");
+        BusinessError businessError1 = new BusinessError(exceptionId, errorMessage1);
+        errors.AddOrMerge(businessError1);
+        BusinessError businessError2 = new BusinessError(exceptionId, errorMessage2);
+
+        // Act
+        errors.AddOrMerge(businessError2);
+
+        // Assert
+        var error = Assert.Single(errors, error => error.ExceptionId == exceptionId);
+        Assert.Collection(
+            error.ErrorMessages,
+            message => Assert.Equal(errorMessage1.Message, message.Message),
+            message => Assert.Equal(errorMessage2.Message, message.Message));
+    }
+
+    [Fact]
+    public void ToString_AllBusinessErrorCodesAndMessages_ConvertedToJsonFormat()
+    {
+        // Arrange
+        var errors = new BusinessErrorCollection();
+        string exceptionId1 = "ERR_CODE1";
+        ErrorMessage errorMessage1_1 = new ErrorMessage("ERROR_MESSAGE1-1");
+        ErrorMessage errorMessage1_2 = new ErrorMessage("ERROR_MESSAGE1-2");
+        BusinessError businessError1 = new BusinessError(exceptionId1, errorMessage1_1, errorMessage1_2);
+        errors.AddOrMerge(businessError1);
+        string exceptionId2 = "ERR_CODE2";
+        ErrorMessage errorMessage2_1 = new ErrorMessage("ERROR_MESSAGE2-1");
+        ErrorMessage errorMessage2_2 = new ErrorMessage("ERROR_MESSAGE2-2");
+        BusinessError businessError2 = new BusinessError(exceptionId2, errorMessage2_1, errorMessage2_2);
+        errors.AddOrMerge(businessError2);
+
+        // Act
+        var str = errors.ToString();
+
+        // Assert
+        Assert.Equal("[{\"ERR_CODE1\":[\"ERROR_MESSAGE1-1\",\"ERROR_MESSAGE1-2\"]},{\"ERR_CODE2\":[\"ERROR_MESSAGE2-1\",\"ERROR_MESSAGE2-2\"]}]", str);
+    }
+}
