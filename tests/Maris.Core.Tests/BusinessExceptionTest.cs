@@ -3,6 +3,33 @@
 public class BusinessExceptionTest
 {
     [Fact]
+    public void Constructor_SetNullBusinessErrorCollection()
+    {
+        // Arrange
+        BusinessErrorCollection? businessErrors = null;
+
+        // Act
+        var businessEx = new BusinessException(businessErrors!);
+
+        // Assert
+        Assert.Empty(businessEx.GetErrors());
+    }
+
+    [Fact]
+    public void Constructor_SetNullBusinessErrorCollectionWithInnerExeption()
+    {
+        // Arrange
+        Exception innerEx = new Exception();
+        BusinessErrorCollection? businessErrors = null;
+
+        // Act
+        var businessEx = new BusinessException(innerEx, businessErrors!);
+
+        // Assert
+        Assert.Empty(businessEx.GetErrors());
+    }
+
+    [Fact]
     public void BusinessErrors_ReturnsAddedBusinessErrors()
     {
         // Arrange
