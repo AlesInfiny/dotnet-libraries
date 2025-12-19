@@ -7,7 +7,7 @@
 
 [日本語版](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.ComponentModel.Annotations/README.ja.md)
 
-Provides common libraries useful for .NET enterprise system development.
+`Maris.ComponentModel.Annotations` provides additional functionality for `System.ComponentModel.Annotations`.
 
 ## Install
 

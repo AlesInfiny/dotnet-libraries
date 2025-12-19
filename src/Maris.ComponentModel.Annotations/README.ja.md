@@ -6,7 +6,7 @@
 
 [English version](https://github.com/AlesInfiny/dotnet-libraries/blob/main/src/Maris.ComponentModel.Annotations/README.md)
 
-.NET エンタープライズシステムの開発に役立つ共通ライブラリを提供します。
+`Maris.ComponentModel.Annotations` は `System.ComponentModel.Annotations` に対する追加機能を提供します。
 
 ## インストール方法
 
