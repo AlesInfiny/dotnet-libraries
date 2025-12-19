@@ -16,7 +16,7 @@ public class BusinessExceptionTest
     }
 
     [Fact]
-    public void Constructor_SetNullBusinessErrorCollectionWithInnerExeption()
+    public void Constructor_SetNullBusinessErrorCollectionWithInnerException()
     {
         // Arrange
         Exception innerEx = new Exception();
