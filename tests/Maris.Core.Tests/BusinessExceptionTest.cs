@@ -3,6 +3,90 @@
 public class BusinessExceptionTest
 {
     [Fact]
+    public void Constructor_SetNullBusinessErrorCollection()
+    {
+        // Arrange
+        BusinessErrorCollection? businessErrors = null;
+
+        // Act
+        var businessEx = new BusinessException(businessErrors);
+
+        // Assert
+        Assert.Empty(businessEx.GetErrors());
+        Assert.Null(businessEx.InnerException);
+    }
+
+    [Fact]
+    public void Constructor_SetBusinessErrorCollection()
+    {
+        // Arrange
+        BusinessErrorCollection businessErrors = new BusinessErrorCollection();
+        businessErrors.AddOrMerge(new BusinessError("exceptionId1", new ErrorMessage("Error message 1.")));
+        businessErrors.AddOrMerge(new BusinessError("exceptionId2", new ErrorMessage("Error message 2.")));
+
+        // Act
+        var businessEx = new BusinessException(businessErrors);
+
+        // Assert
+        Assert.Collection(
+            businessEx.GetErrors(),
+            error =>
+            {
+                Assert.Equal("exceptionId1", error.ExceptionId);
+                Assert.Equal("Error message 1.", error.ErrorMessage);
+            },
+            error =>
+            {
+                Assert.Equal("exceptionId2", error.ExceptionId);
+                Assert.Equal("Error message 2.", error.ErrorMessage);
+            });
+        Assert.Null(businessEx.InnerException);
+    }
+
+    [Fact]
+    public void Constructor_SetBusinessErrorCollectionWithInnerException()
+    {
+        // Arrange
+        Exception innerEx = new Exception();
+        BusinessErrorCollection businessErrors = new BusinessErrorCollection();
+        businessErrors.AddOrMerge(new BusinessError("exceptionId1", new ErrorMessage("Error message 1.")));
+        businessErrors.AddOrMerge(new BusinessError("exceptionId2", new ErrorMessage("Error message 2.")));
+
+        // Act
+        var businessEx = new BusinessException(innerEx, businessErrors);
+
+        // Assert
+        Assert.Collection(
+            businessEx.GetErrors(),
+            error =>
+            {
+                Assert.Equal("exceptionId1", error.ExceptionId);
+                Assert.Equal("Error message 1.", error.ErrorMessage);
+            },
+            error =>
+            {
+                Assert.Equal("exceptionId2", error.ExceptionId);
+                Assert.Equal("Error message 2.", error.ErrorMessage);
+            });
+        Assert.Same(innerEx, businessEx.InnerException);
+    }
+
+    [Fact]
+    public void Constructor_SetNullBusinessErrorCollectionWithInnerException()
+    {
+        // Arrange
+        Exception innerEx = new Exception();
+        BusinessErrorCollection? businessErrors = null;
+
+        // Act
+        var businessEx = new BusinessException(innerEx, businessErrors);
+
+        // Assert
+        Assert.Empty(businessEx.GetErrors());
+        Assert.Same(innerEx, businessEx.InnerException);
+    }
+
+    [Fact]
     public void BusinessErrors_ReturnsAddedBusinessErrors()
     {
         // Arrange

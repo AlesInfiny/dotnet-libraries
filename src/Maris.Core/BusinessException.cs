@@ -22,8 +22,29 @@ public class BusinessException : Exception
     ///  <see cref="BusinessException"/> クラスの新しいインスタンスを初期化します。
     /// </summary>
     /// <param name="businessErrors">業務エラーのリスト。</param>
+    public BusinessException(BusinessErrorCollection? businessErrors)
+        : this(null, businessErrors?.ToArray() ?? [])
+    {
+    }
+
+    /// <summary>
+    ///  業務エラーのリストを指定して
+    ///  <see cref="BusinessException"/> クラスの新しいインスタンスを初期化します。
+    /// </summary>
+    /// <param name="businessErrors">業務エラーのリスト。</param>
     public BusinessException(params BusinessError[] businessErrors)
         : this(null, businessErrors)
+    {
+    }
+
+    /// <summary>
+    ///  内部例外と業務エラーのリストを指定して
+    ///  <see cref="BusinessException"/> クラスの新しいインスタンスを初期化します。
+    /// </summary>
+    /// <param name="innerException">内部例外。</param>
+    /// <param name="businessErrors">業務エラーのリスト。</param>
+    public BusinessException(Exception? innerException, BusinessErrorCollection? businessErrors)
+        : this(innerException, businessErrors?.ToArray() ?? [])
     {
     }
 
