@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 1
   
       - name: dotnet SDK のセットアップ
-        uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
         with:
           dotnet-version: |
             8.0.x
@@ -94,7 +94,7 @@ jobs:
 
       - id: create-test-result-report
         name: テスト結果ページの作成
-        uses: dorny/test-reporter@fe45e9537387dac839af0d33ba56eed8e24189e8 # v2.3.0
+        uses: dorny/test-reporter@b082adf0eced0765477756c2a610396589b8c637 # v2.5.0
         with:
           name: 'Test results ${{ matrix.framework_version }} on ${{ matrix.vm_image }}'
           path: '**/TestResults/Maris.Logging.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
