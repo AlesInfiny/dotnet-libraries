@@ -26,7 +26,7 @@ jobs:
 
       - name: npm パッケージのインストール
         shell: bash
-        run: npm ci
+        run: npm ci --ignore-scripts
   
       - name: Linter の処理開始
         shell: bash
