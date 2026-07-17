@@ -65,7 +65,7 @@ jobs:
           fetch-depth: 1
 
       - name: dotnet SDK のセットアップ
-        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           dotnet-version: |
             8.0.x
@@ -79,7 +79,7 @@ jobs:
           dotnet pack ./src/${{ matrix.packaging_project_name }}/${{ matrix.packaging_project_name }}.csproj --configuration $BUILD_CONFIGURATION --output ${{ matrix.packaging_project_name }} -p:PackageVersion=$file_version -p:Version=$file_version -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
       - name: ビルドアーティファクトのアップロード
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.packaging_project_name }}
           path: ${{ matrix.packaging_project_name }}/
@@ -98,12 +98,12 @@ jobs:
 
     steps:
       - name: ビルドアーティファクトのダウンロード
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ matrix.packaging_project_name }}
 
       - name: NuGet に OIDC ログインして一時 API キーを発行
-        uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1.0.0
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.0.0
         id: login
         with:
           user: ${{ secrets.NUGET_USER }} # NuGet の組織名ではなくユーザー名を設定する必要があります。
