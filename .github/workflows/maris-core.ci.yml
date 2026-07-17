@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 1
   
       - name: dotnet SDK のセットアップ
-        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           dotnet-version: |
             8.0.x
@@ -111,7 +111,7 @@ jobs:
 
       - id: create-coverage-report
         name: コードカバレッジレポートの解析
-        uses: danielpalme/ReportGenerator-GitHub-Action@ee0ae774f6d3afedcbd1683c1ab21b83670bdf8e # v5.5.1
+        uses: danielpalme/ReportGenerator-GitHub-Action@049f7ec958c672fd31d5cc1cb01622dc8d2e23ab # v5.5.10
         with:
           reports: '**/TestResults/coverage.cobertura.xml'
           targetdir: 'CoverageReport'
@@ -130,7 +130,7 @@ jobs:
           cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
     
       - name: テスト結果のアップロード
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
           path: |
