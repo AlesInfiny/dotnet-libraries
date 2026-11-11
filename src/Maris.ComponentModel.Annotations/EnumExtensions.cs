@@ -8,7 +8,8 @@ namespace Maris.ComponentModel;
 /// </summary>
 public static class EnumExtensions
 {
-    extension<TEnum>(TEnum value) where TEnum : struct, Enum
+    extension<TEnum>(TEnum value)
+        where TEnum : struct, Enum
     {
         /// <summary>
         ///  列挙型の値に付与された <see cref="DisplayAttribute"/> の名前を取得します。
