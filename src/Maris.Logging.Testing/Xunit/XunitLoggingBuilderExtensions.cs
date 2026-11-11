@@ -1,15 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Maris.Logging.Testing.Xunit;
+﻿using Maris.Logging.Testing.Xunit;
 
 namespace Microsoft.Extensions.Logging;
 
 /// <summary>
 ///  Xunit で使用可能な <see cref="ILogger"/> を登録する処理を提供します。
 /// </summary>
-[SuppressMessage(
-    category: "StyleCop.CSharp.ReadabilityRules",
-    checkId: "SA1101:PrefixLocalCallsWithThis",
-    Justification = "StyleCop bug. see: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/3954")]
 public static class XunitLoggingBuilderExtensions
 {
     extension(ILoggingBuilder builder)
