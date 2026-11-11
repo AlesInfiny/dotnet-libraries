@@ -24,6 +24,13 @@
     <None Include="../../images/icon.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <PackageReference Include="System.Text.Json" />
   </ItemGroup>
