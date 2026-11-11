@@ -69,6 +69,7 @@ jobs:
         with:
           dotnet-version: |
             10.0.x
+            11.0.x
           dotnet-quality: 'ga'
           
       - name: NuGet パッケージの作成
