@@ -87,6 +87,7 @@ Console.WriteLine(results[0].ErrorMessage); // Output: End date must be on or af
 ```
 
 Specify how to compare with the `DateComparisonOperator` enumeration.
+The enumeration has the following values:
 
 - `After`: Validation succeeds when the validated value is after the other value.
 - `OnOrAfter`: Validation succeeds when the validated value is the same as or after the other value.

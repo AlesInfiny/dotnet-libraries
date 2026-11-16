@@ -86,6 +86,7 @@ Console.WriteLine(results[0].ErrorMessage); // Output: 終了日 は 開始日 �
 ```
 
 比較方法は `DateComparisonOperator` 列挙型で指定します。
+この列挙型には、以下の値があります。
 
 - `After` ：検証対象の値が、比較先の値より後である場合に検証成功とします。
 - `OnOrAfter` ：検証対象の値が、比較先の値と同じか、比較先の値より後である場合に検証成功とします。
