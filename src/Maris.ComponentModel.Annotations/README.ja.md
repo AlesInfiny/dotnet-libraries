@@ -161,6 +161,46 @@ public class Schedule
 `ErrorMessage` プロパティ、または `ErrorMessageResourceType` プロパティと `ErrorMessageResourceName` プロパティを用いて、エラーメッセージを変更できます。
 メッセージの `{0}` は検証対象のプロパティの表示名、 `{1}` は比較先のプロパティの表示名に置き換わります。
 
+`ErrorMessage` プロパティにエラーメッセージを直接設定する例を次に示します。
+
+```csharp
+public class Period
+{
+    [Display(Name = "開始日")]
+    public DateTime? StartDate { get; set; }
+
+    [Display(Name = "終了日")]
+    [DateComparison(
+        nameof(StartDate),
+        DateComparisonOperator.OnOrAfter,
+        ErrorMessage = "{0} には {1} と同じ日か、それより後の日を入力してください。")]
+    public DateTime? EndDate { get; set; }
+}
+
+// 検証エラーとなった場合のエラーメッセージ：
+// 終了日 には 開始日 と同じ日か、それより後の日を入力してください。
+```
+
+リソースファイルのエラーメッセージを使用する例を次に示します。
+`ErrorMessageResourceType` プロパティにリソースクラスの型を、 `ErrorMessageResourceName` プロパティにリソースの名前を設定します。
+リソースクラスとそのプロパティは、公開されている必要があります。
+
+```csharp
+public class Period
+{
+    [Display(Name = "開始日")]
+    public DateTime? StartDate { get; set; }
+
+    [Display(Name = "終了日")]
+    [DateComparison(
+        nameof(StartDate),
+        DateComparisonOperator.OnOrAfter,
+        ErrorMessageResourceType = typeof(ValidationMessages),
+        ErrorMessageResourceName = nameof(ValidationMessages.EndDateMustBeOnOrAfterStartDate))]
+    public DateTime? EndDate { get; set; }
+}
+```
+
 #### 設定に誤りがある場合
 
 以下の場合は、検証時に `InvalidOperationException` をスローします。

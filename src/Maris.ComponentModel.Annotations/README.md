@@ -162,6 +162,46 @@ The English message is used when the current UI culture is English; otherwise, t
 You can change the error message with the `ErrorMessage` property, or with the `ErrorMessageResourceType` and `ErrorMessageResourceName` properties.
 In the message, `{0}` is replaced with the display name of the validated property, and `{1}` with the display name of the other property.
 
+The following example sets an error message directly to the `ErrorMessage` property.
+
+```csharp
+public class Period
+{
+    [Display(Name = "Start date")]
+    public DateTime? StartDate { get; set; }
+
+    [Display(Name = "End date")]
+    [DateComparison(
+        nameof(StartDate),
+        DateComparisonOperator.OnOrAfter,
+        ErrorMessage = "Enter a date for {0} that is the same as or later than {1}.")]
+    public DateTime? EndDate { get; set; }
+}
+
+// Error message when validation fails:
+// Enter a date for End date that is the same as or later than Start date.
+```
+
+The following example uses an error message in a resource file.
+Set the type of the resource class to the `ErrorMessageResourceType` property, and the name of the resource to the `ErrorMessageResourceName` property.
+The resource class and its property must be public.
+
+```csharp
+public class Period
+{
+    [Display(Name = "Start date")]
+    public DateTime? StartDate { get; set; }
+
+    [Display(Name = "End date")]
+    [DateComparison(
+        nameof(StartDate),
+        DateComparisonOperator.OnOrAfter,
+        ErrorMessageResourceType = typeof(ValidationMessages),
+        ErrorMessageResourceName = nameof(ValidationMessages.EndDateMustBeOnOrAfterStartDate))]
+    public DateTime? EndDate { get; set; }
+}
+```
+
 #### When the configuration is incorrect
 
 In the following cases, `InvalidOperationException` is thrown during validation.
