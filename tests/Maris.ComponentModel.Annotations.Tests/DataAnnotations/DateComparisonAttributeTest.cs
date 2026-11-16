@@ -469,6 +469,25 @@ public class DateComparisonAttributeTest
     }
 
     [Fact]
+    public void GetValidationResult_InvalidWithErrorMessageResource_UsesErrorMessageOfResource()
+    {
+        // Arrange
+        var attribute = new DateComparisonAttribute(nameof(DisplayNamePair.Other), DateComparisonOperator.After)
+        {
+            ErrorMessageResourceType = typeof(TestMessages),
+            ErrorMessageResourceName = nameof(TestMessages.TargetMustBeAfterOther),
+        };
+        var pair = CreateInvalidDisplayNamePair(DateComparisonOperator.After);
+
+        // Act
+        var result = Validate(attribute, pair, nameof(DisplayNamePair.Target));
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("リソースのメッセージ：検証対象 は 比較先 より後です。", result.ErrorMessage);
+    }
+
+    [Fact]
     public void GetValidationResult_Invalid_ReturnsOnlyValidatedMemberName()
     {
         // Arrange
@@ -765,6 +784,11 @@ public class DateComparisonAttributeTest
         // After / OnOrAfter は検証対象の値を前に、 Before / OnOrBefore は検証対象の値を後にして、検証エラーにする。
         var offsetDays = @operator is DateComparisonOperator.After or DateComparisonOperator.OnOrAfter ? -1 : 1;
         return new DisplayNamePair { Target = BaseDateTime.AddDays(offsetDays), Other = BaseDateTime };
+    }
+
+    private static class TestMessages
+    {
+        public static string TargetMustBeAfterOther => "リソースのメッセージ：{0} は {1} より後です。";
     }
 
     private sealed class Pair
