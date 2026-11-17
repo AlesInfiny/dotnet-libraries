@@ -1,2 +1,15 @@
 # dotnet アプリケーションのビルド成果物フォルダーは検査を除外
 src/**/@(obj|bin)/**
+tests/**/@(obj|bin)/**
+
+# 単体テストの実行結果フォルダーは検査を除外
+**/TestResults/**
+
+# npm パッケージのフォルダーは検査を除外
+**/node_modules/**
+
+# Visual Studio の作業フォルダーは検査を除外
+**/.vs/**
+
+# 英語版の README は日本語向けのルールで検査できないため除外
+src/**/README.md
