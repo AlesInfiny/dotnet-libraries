@@ -1,1 +1,0 @@
-INSERT INTO Items VALUES (2);

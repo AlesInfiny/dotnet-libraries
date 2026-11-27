@@ -86,6 +86,19 @@ dotnet add package Maris.Data.Testing
 
 - The SQL files specified in one attribute are executed in the specified order within one transaction.
   If any of them fails, the transaction is rolled back and the test fails.
+- When multiple attributes with the same timing are added, the execution order among the attributes is not guaranteed.
+  This is because xUnit gets the attributes by reflection, and the order of the returned attributes is not defined by the .NET specification.
+  Specify the SQL files that depend on the order, such as inserting into parent and child tables, in one attribute.
+
+    ```csharp
+    // Not recommended: The order among the attributes is not guaranteed, so Child.sql may be executed first.
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Parent.sql")]
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Child.sql")]
+
+    // Recommended: The SQL files specified in one attribute are executed in the specified order.
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Parent.sql", "Child.sql")]
+    ```
+
 - The SQL files specified with `SqlExecutionPhase.AfterTest` are executed even if the test method fails.
   However, they are not executed if the SQL files specified with `SqlExecutionPhase.BeforeTest` fail, regardless of the order of the attributes.
   This is because xUnit calls neither the test method nor `After` of any attribute when `Before` of an attribute throws an exception.

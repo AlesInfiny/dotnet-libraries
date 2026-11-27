@@ -15,7 +15,6 @@ namespace Maris.Data.Testing.IntegrationTests.Xunit;
 public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
 {
     private const string InsertSql = "INSERT INTO Items VALUES (1);";
-    private const string InsertSecondSql = "INSERT INTO Items VALUES (2);";
     private const string CleanupSql = "DELETE FROM Items;";
 
     private readonly Func<DbConnection>? originalConnectionFactory = ExecuteSqlSettings.ConnectionFactory;
@@ -91,18 +90,6 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
         Assert.Empty(this.log.CommittedSqls);
     }
 
-    [Fact]
-    public async Task MultipleAttributes_ExecutesBeforeTestInDeclaredOrderAndAfterTestInReverseOrder()
-    {
-        // Act
-        var results = await XunitPipeline.RunAsync(typeof(Scenarios.MultipleAttributes));
-
-        // Assert
-        var result = Assert.Single(results);
-        Assert.Equal(XunitTestOutcome.Passed, result.Outcome);
-        Assert.Equal([InsertSql, InsertSecondSql, InsertSecondSql, InsertSql], this.log.CommittedSqls);
-    }
-
     /// <summary>
     ///  <see cref="XunitPipeline"/> で実行するテストです。
     ///  internal のため、このテストプロジェクトの実行時には検出されません。
@@ -168,19 +155,6 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
             [Fact]
             [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", "Fail.sql")]
             [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
-            public void Test()
-            {
-                TestMethodExecuted = true;
-            }
-        }
-
-        public sealed class MultipleAttributes
-        {
-            [Fact]
-            [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql")]
-            [ExecuteSql(SqlExecutionPhase.BeforeTest, "InsertSecond.sql")]
-            [ExecuteSql(SqlExecutionPhase.AfterTest, "Insert.sql")]
-            [ExecuteSql(SqlExecutionPhase.AfterTest, "InsertSecond.sql")]
             public void Test()
             {
                 TestMethodExecuted = true;

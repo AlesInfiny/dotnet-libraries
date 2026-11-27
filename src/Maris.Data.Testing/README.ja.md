@@ -85,6 +85,19 @@ dotnet add package Maris.Data.Testing
 
 - 1 つの属性で指定した SQL ファイルは、指定した順に 1 つのトランザクション内で実行します。
   いずれかの実行に失敗した場合はロールバックし、テストは失敗します。
+- 同じ実行タイミングの属性を複数付与した場合、属性どうしの実行順は保証しません。
+  xUnit はリフレクションで属性を取得しており、取得される属性の順序は .NET の仕様で定められていないためです。
+  親テーブルと子テーブルへの投入など、順序に依存する SQL ファイルは 1 つの属性にまとめて指定してください。
+
+    ```csharp
+    // 推奨しない：属性どうしの実行順は保証されないため、 Child.sql が先に実行される可能性がある
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Parent.sql")]
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Child.sql")]
+
+    // 推奨：1 つの属性で指定した SQL ファイルは、指定した順に実行される
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "Parent.sql", "Child.sql")]
+    ```
+
 - `SqlExecutionPhase.AfterTest` を指定した SQL ファイルは、テストメソッドが失敗した場合も実行します。
   ただし、 `SqlExecutionPhase.BeforeTest` を指定した SQL ファイルの実行に失敗した場合は、属性の記述順に関係なく実行しません。
   xUnit は、いずれかの属性の `Before` で例外が発生すると、テストメソッドもすべての属性の `After` も呼び出さないためです。
