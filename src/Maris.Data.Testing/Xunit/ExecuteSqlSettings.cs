@@ -178,8 +178,10 @@ public static class ExecuteSqlSettings
         }
 
         // 相対パスはテストランナーによって変わるカレントディレクトリではなく、出力フォルダーを基準に解決する。
-        // value が絶対パスの場合、Path.Combine は value をそのまま返す。
-        return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, value));
+        // 絶対パスはそのまま正規化し、相対パスのみ出力フォルダー基準で結合する。
+        return Path.IsPathRooted(value)
+            ? Path.GetFullPath(value)
+            : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, value));
     }
 
     /// <summary>
