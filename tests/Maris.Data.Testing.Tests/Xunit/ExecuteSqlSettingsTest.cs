@@ -60,6 +60,19 @@ public sealed class ExecuteSqlSettingsTest : IDisposable
     }
 
     [Fact]
+    public void TestDataDirectory_NotSet_ReturnsDefaultTestDataDirectory()
+    {
+        // ExecuteSqlSettings を変更するテストは同じコレクションで直列に実行され、終了時に設定を元に戻す。
+        // そのため、ここで取得する値は静的フィールドの初期値になる。
+
+        // Act
+        var actual = ExecuteSqlSettings.TestDataDirectory;
+
+        // Assert
+        Assert.Equal(ExecuteSqlSettings.DefaultTestDataDirectory, actual);
+    }
+
+    [Fact]
     public void TestDataDirectory_ValidValue_ReturnsSetValue()
     {
         // Arrange
