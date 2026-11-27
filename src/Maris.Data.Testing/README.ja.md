@@ -71,12 +71,12 @@ dotnet add package Maris.Data.Testing
     public class TestClass1
     {
         [Fact]
-        [ExecuteSql(SqlExecutionPhase.BeforeTest, "Products/Insert.sql")]
         [ExecuteSql(SqlExecutionPhase.AfterTest, "Products/Delete.sql")]
+        [ExecuteSql(SqlExecutionPhase.BeforeTest, "Products/Insert.sql")]
         public void TestMethod()
         {
             // Products/Insert.sql で投入したデータを使用してテストできます。
-            // Products/Delete.sql はテストが失敗した場合も実行されます。
+            // Products/Delete.sql はテストメソッドが失敗した場合も実行されます。
         }
     }
     ```
@@ -85,6 +85,18 @@ dotnet add package Maris.Data.Testing
 
 - 1 つの属性で指定した SQL ファイルは、指定した順に 1 つのトランザクション内で実行します。
   いずれかの実行に失敗した場合はロールバックし、テストは失敗します。
+- `SqlExecutionPhase.AfterTest` を指定した SQL ファイルは、テストメソッドが失敗した場合も実行します。
+  ただし、 `SqlExecutionPhase.BeforeTest` を指定した SQL ファイルの実行に失敗した場合は、実行されないことがあります。
+  xUnit は属性を記述順に処理して `Before` を呼び出し、 `Before` が成功した属性の `After` だけを逆順に呼び出すためです。
+  `Before` で例外が発生すると、それより後に記述した属性は `After` も呼び出されません。
+
+    ```csharp
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql")]       // 成功してコミット済み
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "B.sql")]       // 失敗してロールバック
+    [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]  // 実行されず、 A.sql で投入したデータが残る
+    ```
+
+  `SqlExecutionPhase.BeforeTest` の SQL ファイルが失敗した場合も後片付けを実行するには、 `SqlExecutionPhase.AfterTest` の属性を `SqlExecutionPhase.BeforeTest` の属性より前に記述してください。
 - 各 SQL ファイルの内容は、 1 つのコマンドとして実行します。
   SQL Server の `GO` のような、データベース固有のバッチ区切りには対応していません。必要に応じてファイルを分割してください。
 - 空白のみのファイルは実行しません。

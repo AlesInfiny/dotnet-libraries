@@ -72,12 +72,12 @@ dotnet add package Maris.Data.Testing
     public class TestClass1
     {
         [Fact]
-        [ExecuteSql(SqlExecutionPhase.BeforeTest, "Products/Insert.sql")]
         [ExecuteSql(SqlExecutionPhase.AfterTest, "Products/Delete.sql")]
+        [ExecuteSql(SqlExecutionPhase.BeforeTest, "Products/Insert.sql")]
         public void TestMethod()
         {
             // Test data inserted by Products/Insert.sql is available here.
-            // Products/Delete.sql is executed after the test, even if the test fails.
+            // Products/Delete.sql is executed after the test, even if the test method fails.
         }
     }
     ```
@@ -86,6 +86,18 @@ dotnet add package Maris.Data.Testing
 
 - The SQL files specified in one attribute are executed in the specified order within one transaction.
   If any of them fails, the transaction is rolled back and the test fails.
+- The SQL files specified with `SqlExecutionPhase.AfterTest` are executed even if the test method fails.
+  However, they may not be executed if the SQL files specified with `SqlExecutionPhase.BeforeTest` fail.
+  xUnit calls `Before` of the attributes in the order they are declared, and calls `After` in reverse order only for the attributes whose `Before` succeeded.
+  If `Before` throws an exception, neither `Before` nor `After` of the attributes declared after it is called.
+
+    ```csharp
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql")]       // Succeeds and is committed.
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "B.sql")]       // Fails and is rolled back.
+    [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]  // Not executed, so the data inserted by A.sql remains.
+    ```
+
+  To clean up even when the SQL files specified with `SqlExecutionPhase.BeforeTest` fail, declare the `SqlExecutionPhase.AfterTest` attributes before the `SqlExecutionPhase.BeforeTest` attributes.
 - The content of each SQL file is executed as a single command.
   Database-specific batch separators such as `GO` in SQL Server are not supported. Split such SQL into separate files.
 - Files containing only white space are skipped.
