@@ -21,6 +21,13 @@ changelog:
         labels:
           - dependencies
           - 内部の改善
+    - title: ':newspaper: [Maris.Data.Testing](https://www.nuget.org/packages/Maris.Data.Testing) features'
+      labels:
+        - 'target: Maris.Data.Testing'
+      exclude:
+        labels:
+          - dependencies
+          - 内部の改善
     - title: ':label: :purple_circle: NuGet package dependencies'
       labels:
         - nuget
