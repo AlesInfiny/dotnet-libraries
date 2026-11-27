@@ -28,8 +28,8 @@ dotnet add package Maris.Data.Testing
 
 ## Usage
 
-1. [Install template for xUnit v3][Install xUnit template], and run `dotnet new xunit3` to create a unit test project.
-1. Install `Maris.Data.Testing` and the ADO.NET provider of your database (e.g. `Microsoft.Data.SqlClient`) in the unit test project.
+1. [Install template for xUnit v3][Install xUnit template], and run `dotnet new xunit3` to create a test project.
+1. Install `Maris.Data.Testing` and the ADO.NET provider of your database (e.g. `Microsoft.Data.SqlClient`) in the test project.
 1. Put the SQL files in the `TestData` folder of the test project, and copy them to the output directory.
 
     ```xml title="*.csproj"
@@ -91,6 +91,10 @@ dotnet add package Maris.Data.Testing
 - Files containing only white space are skipped.
 - The base folder of the SQL files can be changed by `ExecuteSqlSettings.TestDataDirectory`.
   The default is the `TestData` folder in the output directory.
+  A relative path is resolved against the output directory, not the current directory.
+- The command timeout (in seconds) for executing the SQL files can be changed by `ExecuteSqlSettings.CommandTimeout`.
+  The default is `null`, which uses the default of the ADO.NET provider (30 seconds for SqlClient).
+  Set a larger value if needed, for example when inserting a large amount of test data.
 
 ## Notes
 

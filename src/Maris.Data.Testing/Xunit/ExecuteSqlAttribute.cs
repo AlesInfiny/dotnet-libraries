@@ -90,6 +90,7 @@ public sealed class ExecuteSqlAttribute : BeforeAfterTestAttribute
 
         // データベースに接続する前にすべての SQL ファイルを読み込み、ファイルの不備を早期に検出する。
         var testDataDirectory = ExecuteSqlSettings.TestDataDirectory;
+        var commandTimeout = ExecuteSqlSettings.CommandTimeout;
         var sqlTexts = this.SqlFiles
             .Select(sqlFile => ReadSqlFile(testDataDirectory, sqlFile))
             .Where(sql => !string.IsNullOrWhiteSpace(sql))
@@ -112,6 +113,11 @@ public sealed class ExecuteSqlAttribute : BeforeAfterTestAttribute
             using var command = connection.CreateCommand();
             command.Transaction = transaction;
             command.CommandText = sql;
+            if (commandTimeout.HasValue)
+            {
+                command.CommandTimeout = commandTimeout.Value;
+            }
+
             command.ExecuteNonQuery();
         }
 

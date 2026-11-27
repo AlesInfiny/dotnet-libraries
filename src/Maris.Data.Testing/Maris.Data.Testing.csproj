@@ -5,7 +5,7 @@
     <Description>
       Provides functionality to execute SQL files before and after each test method in order to set up and clean up test data, independent of any specific database product.
     </Description>
-    <Copyright>Copyright (c) 2025 BIPROGY Inc.</Copyright>
+    <Copyright>Copyright (c) 2026 BIPROGY Inc.</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/AlesInfiny/dotnet-libraries</PackageProjectUrl>

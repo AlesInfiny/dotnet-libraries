@@ -16,12 +16,14 @@ public sealed class ExecuteSqlAttributeTest : IDisposable
 
     private readonly Func<DbConnection>? originalConnectionFactory = ExecuteSqlSettings.ConnectionFactory;
     private readonly string originalTestDataDirectory = ExecuteSqlSettings.TestDataDirectory;
+    private readonly int? originalCommandTimeout = ExecuteSqlSettings.CommandTimeout;
     private readonly IXunitTest test = Mock.Of<IXunitTest>();
     private readonly List<FakeDbConnection> connections = [];
 
     public ExecuteSqlAttributeTest()
     {
         ExecuteSqlSettings.TestDataDirectory = ExecuteSqlSettings.DefaultTestDataDirectory;
+        ExecuteSqlSettings.CommandTimeout = null;
         ExecuteSqlSettings.ConnectionFactory = () =>
         {
             var connection = new FakeDbConnection();
@@ -34,6 +36,7 @@ public sealed class ExecuteSqlAttributeTest : IDisposable
     {
         ExecuteSqlSettings.ConnectionFactory = this.originalConnectionFactory;
         ExecuteSqlSettings.TestDataDirectory = this.originalTestDataDirectory;
+        ExecuteSqlSettings.CommandTimeout = this.originalCommandTimeout;
     }
 
     [Fact]
@@ -144,6 +147,37 @@ public sealed class ExecuteSqlAttributeTest : IDisposable
         // Assert
         var connection = Assert.Single(this.connections);
         Assert.Equal([NestedSql], connection.ExecutedCommandTexts.Select(NormalizeNewLine));
+    }
+
+    [Fact]
+    public void Before_CommandTimeoutIsNull_UsesProviderDefault()
+    {
+        // Arrange
+        var attribute = new ExecuteSqlAttribute(SqlExecutionPhase.BeforeTest, "First.sql", "Second.sql");
+
+        // Act
+        attribute.Before(MethodUnderTest, this.test);
+
+        // Assert
+        var connection = Assert.Single(this.connections);
+        Assert.Equal([FakeDbCommand.DefaultCommandTimeout, FakeDbCommand.DefaultCommandTimeout], connection.ExecutedCommandTimeouts);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(600)]
+    public void Before_CommandTimeoutSet_AppliesToAllCommands(int commandTimeout)
+    {
+        // Arrange
+        ExecuteSqlSettings.CommandTimeout = commandTimeout;
+        var attribute = new ExecuteSqlAttribute(SqlExecutionPhase.BeforeTest, "First.sql", "Second.sql");
+
+        // Act
+        attribute.Before(MethodUnderTest, this.test);
+
+        // Assert
+        var connection = Assert.Single(this.connections);
+        Assert.Equal([commandTimeout, commandTimeout], connection.ExecutedCommandTimeouts);
     }
 
     [Fact]

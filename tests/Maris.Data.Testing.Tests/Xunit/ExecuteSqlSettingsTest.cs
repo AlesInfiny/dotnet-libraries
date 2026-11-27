@@ -8,11 +8,42 @@ public sealed class ExecuteSqlSettingsTest : IDisposable
 {
     private readonly Func<DbConnection>? originalConnectionFactory = ExecuteSqlSettings.ConnectionFactory;
     private readonly string originalTestDataDirectory = ExecuteSqlSettings.TestDataDirectory;
+    private readonly int? originalCommandTimeout = ExecuteSqlSettings.CommandTimeout;
 
     public void Dispose()
     {
         ExecuteSqlSettings.ConnectionFactory = this.originalConnectionFactory;
         ExecuteSqlSettings.TestDataDirectory = this.originalTestDataDirectory;
+        ExecuteSqlSettings.CommandTimeout = this.originalCommandTimeout;
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(0)]
+    [InlineData(600)]
+    public void CommandTimeout_ValidValue_ReturnsSetValue(int? commandTimeout)
+    {
+        // Act
+        ExecuteSqlSettings.CommandTimeout = commandTimeout;
+
+        // Assert
+        Assert.Equal(commandTimeout, ExecuteSqlSettings.CommandTimeout);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void CommandTimeout_NegativeValue_ThrowsArgumentOutOfRangeException(int commandTimeout)
+    {
+        // Arrange
+        ExecuteSqlSettings.CommandTimeout = 60;
+
+        // Act
+        Action action = () => ExecuteSqlSettings.CommandTimeout = commandTimeout;
+
+        // Assert
+        Assert.Throws<ArgumentOutOfRangeException>("value", action);
+        Assert.Equal(60, ExecuteSqlSettings.CommandTimeout);
     }
 
     [Fact]
@@ -39,6 +70,22 @@ public sealed class ExecuteSqlSettingsTest : IDisposable
 
         // Assert
         Assert.Equal(directory, ExecuteSqlSettings.TestDataDirectory);
+    }
+
+    [Theory]
+    [InlineData("OtherTestData")]
+    [InlineData("TestData/Sub")]
+    [InlineData("../OtherTestData")]
+    public void TestDataDirectory_RelativePath_ResolvesFromBaseDirectory(string directory)
+    {
+        // Arrange
+        var expected = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, directory));
+
+        // Act
+        ExecuteSqlSettings.TestDataDirectory = directory;
+
+        // Assert
+        Assert.Equal(expected, ExecuteSqlSettings.TestDataDirectory);
     }
 
     [Theory]

@@ -8,6 +8,11 @@ namespace Maris.Data.Testing.Tests.Xunit;
 /// </summary>
 internal sealed class FakeDbCommand : DbCommand
 {
+    /// <summary>
+    ///  ADO.NET プロバイダーの既定値を模した、コマンドのタイムアウト時間の既定値（秒）です。
+    /// </summary>
+    public const int DefaultCommandTimeout = 30;
+
     private readonly FakeDbConnection connection;
 
     /// <summary>
@@ -25,7 +30,7 @@ internal sealed class FakeDbCommand : DbCommand
 #pragma warning restore CS8765
 
     /// <inheritdoc/>
-    public override int CommandTimeout { get; set; }
+    public override int CommandTimeout { get; set; } = DefaultCommandTimeout;
 
     /// <inheritdoc/>
     public override CommandType CommandType { get; set; } = CommandType.Text;

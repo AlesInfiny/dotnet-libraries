@@ -27,8 +27,8 @@ dotnet add package Maris.Data.Testing
 
 ## 使用方法
 
-1. [xUnit v3 のテンプレートをインストール][Install xUnit template] し、 `dotnet new xunit3` で単体テストプロジェクトを作成します。
-1. 単体テストプロジェクトに `Maris.Data.Testing` と、使用するデータベースの ADO.NET プロバイダー（ `Microsoft.Data.SqlClient` など）をインストールします。
+1. [xUnit v3 のテンプレートをインストール][Install xUnit template] し、 `dotnet new xunit3` でテストプロジェクトを作成します。
+1. テストプロジェクトに `Maris.Data.Testing` と、使用するデータベースの ADO.NET プロバイダー（ `Microsoft.Data.SqlClient` など）をインストールします。
 1. SQL ファイルをテストプロジェクトの `TestData` フォルダーに配置し、出力フォルダーにコピーされるよう設定します。
 
     ```xml title="*.csproj"
@@ -90,6 +90,10 @@ dotnet add package Maris.Data.Testing
 - 空白のみのファイルは実行しません。
 - SQL ファイルの基準フォルダーは `ExecuteSqlSettings.TestDataDirectory` で変更できます。
   既定値は出力フォルダー直下の `TestData` フォルダーです。
+  相対パスを設定した場合は、カレントディレクトリではなく出力フォルダーを基準に解決します。
+- SQL ファイルを実行するコマンドのタイムアウト時間（秒）は `ExecuteSqlSettings.CommandTimeout` で変更できます。
+  既定値は `null` で、 ADO.NET プロバイダーの既定値（ SqlClient の場合は 30 秒）を使用します。
+  大量のテストデータを投入する場合は、必要に応じて大きな値を設定してください。
 
 ## 注意事項
 

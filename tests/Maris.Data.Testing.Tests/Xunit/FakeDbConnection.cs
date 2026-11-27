@@ -21,6 +21,11 @@ internal sealed class FakeDbConnection : DbConnection
     public List<string> ExecutedCommandTexts { get; } = [];
 
     /// <summary>
+    ///  実行されたコマンドの CommandTimeout を実行順に取得します。
+    /// </summary>
+    public List<int> ExecutedCommandTimeouts { get; } = [];
+
+    /// <summary>
     ///  作成されたトランザクションを取得します。
     /// </summary>
     public List<FakeDbTransaction> Transactions { get; } = [];
@@ -83,6 +88,7 @@ internal sealed class FakeDbConnection : DbConnection
         }
 
         this.ExecutedCommandTexts.Add(command.CommandText);
+        this.ExecutedCommandTimeouts.Add(command.CommandTimeout);
         return 1;
     }
 
