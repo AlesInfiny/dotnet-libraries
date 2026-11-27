@@ -131,7 +131,7 @@ dotnet add package Maris.Data.Testing
 
 - xUnit は既定で、異なるテストコレクションに属するテストクラスを並列に実行します。
   複数のテストクラスが同じテーブルを操作する場合は、それらのクラスを同じ [テストコレクション][xUnit collection] にまとめるか、並列実行を無効にしてください。
-- MySQL や Oracle Database など一部のデータベース製品では、 DDL （ `CREATE TABLE` や `TRUNCATE` など）を実行すると暗黙的にコミットされます。
+- MySQL や Oracle Database などのデータベース製品では、 DDL （ `CREATE TABLE` や `TRUNCATE` など）を実行すると暗黙的にコミットされます。
   SQL ファイルに DDL が含まれている場合、 SQL ファイルの実行に失敗しても、その時点までの変更はロールバックされないことがあります。
 
 ## 依存ライブラリ
