@@ -81,6 +81,59 @@ dotnet add package Maris.Data.Testing
     }
     ```
 
+## 複数のデータベースを使用する場合
+
+`ExecuteSqlSettings.AddDatabase` で名前付きのデータベースを登録し、属性の `Database` プロパティに名前を指定します。
+`Database` を指定しない属性は、 `ExecuteSqlSettings.ConnectionFactory` で設定した既定のデータベースに対して SQL ファイルを実行します。
+
+```csharp title="DatabaseFixture.cs"
+public class DatabaseFixture
+{
+    public DatabaseFixture()
+    {
+        // 既定のデータベース
+        ExecuteSqlSettings.ConnectionFactory = () => new SqlConnection(mainConnectionString);
+
+        // 名前付きのデータベース
+        ExecuteSqlSettings.AddDatabase(
+            Databases.Orders,
+            () => new SqlConnection(ordersConnectionString),
+            options =>
+            {
+                // 設定しなかった項目には ExecuteSqlSettings の値を使用します。
+                options.TestDataDirectory = "TestData/Orders";
+                options.CommandTimeout = 120;
+            });
+    }
+}
+
+public static class Databases
+{
+    public const string Orders = "Orders";
+}
+```
+
+```csharp title="TestClass1.cs"
+[Fact]
+[ExecuteSql(SqlExecutionPhase.BeforeTest, "Customers/Insert.sql")]
+[ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", Database = Databases.Orders)]
+[ExecuteSql(SqlExecutionPhase.AfterTest, "Customers/Delete.sql")]
+[ExecuteSql(SqlExecutionPhase.AfterTest, "Delete.sql", Database = Databases.Orders)]
+public void TestMethod()
+{
+}
+```
+
+- データベースの名前は大文字と小文字を区別します。
+  名前の誤記を防ぐため、名前は定数として定義して使用することを推奨します。
+- 登録されていない名前を指定した場合は、 SQL ファイルの実行時に例外が発生し、テストは失敗します。
+- 同じ名前のデータベースを重複して登録すると、例外が発生します。
+  登録を削除するには `ExecuteSqlSettings.RemoveDatabase` を使用します。
+- `AddDatabase` の第 3 引数で、データベースごとに SQL ファイルの基準フォルダー（ `TestDataDirectory` ）とコマンドのタイムアウト時間（ `CommandTimeout` ）を設定できます。
+  設定しなかった項目には、 `ExecuteSqlSettings` の値を使用します。
+- データベースをまたいだトランザクションには対応していません。
+  詳しくは [注意事項](#注意事項) を参照してください。
+
 ## 動作仕様
 
 - 1 つの属性で指定した SQL ファイルは、指定した順に 1 つのトランザクション内で実行します。
@@ -133,6 +186,10 @@ dotnet add package Maris.Data.Testing
   複数のテストクラスが同じテーブルを操作する場合は、それらのクラスを同じ [テストコレクション][xUnit collection] にまとめるか、並列実行を無効にしてください。
 - MySQL や Oracle Database などのデータベース製品では、 DDL （ `CREATE TABLE` や `TRUNCATE` など）を実行すると暗黙的にコミットされます。
   SQL ファイルに DDL が含まれている場合、 SQL ファイルの実行に失敗しても、その時点までの変更はロールバックされないことがあります。
+- 複数のデータベースを使用する場合、データベースをまたいだトランザクションには対応していません。
+  `SqlExecutionPhase.BeforeTest` の SQL ファイルがいずれかのデータベースで失敗しても、ほかのデータベースでコミット済みのデータはロールバックされません。
+  また、どのデータベースの `SqlExecutionPhase.AfterTest` の SQL ファイルも実行されないため、投入したデータが残ります。
+  属性どうしの実行順は保証されないため、データベース間で順序に依存する SQL ファイルも指定できません。
 
 ## 依存ライブラリ
 

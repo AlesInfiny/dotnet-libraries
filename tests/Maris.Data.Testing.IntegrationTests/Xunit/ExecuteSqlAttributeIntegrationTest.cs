@@ -16,19 +16,27 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
 {
     private const string InsertSql = "INSERT INTO Items VALUES (1);";
     private const string CleanupSql = "DELETE FROM Items;";
+    private const string OrdersInsertSql = "INSERT INTO Orders VALUES (1);";
+    private const string OrdersCleanupSql = "DELETE FROM Orders;";
 
     private readonly Func<DbConnection>? originalConnectionFactory = ExecuteSqlSettings.ConnectionFactory;
     private readonly SqlLog log = new();
+    private readonly SqlLog ordersLog = new();
 
     public ExecuteSqlAttributeIntegrationTest()
     {
         ExecuteSqlSettings.ConnectionFactory = () => new RecordingDbConnection(this.log);
+        ExecuteSqlSettings.AddDatabase(
+            Scenarios.OrdersDatabase,
+            () => new RecordingDbConnection(this.ordersLog),
+            options => options.TestDataDirectory = "TestData/Orders");
         Scenarios.TestMethodExecuted = false;
     }
 
     public void Dispose()
     {
         ExecuteSqlSettings.ConnectionFactory = this.originalConnectionFactory;
+        ExecuteSqlSettings.RemoveDatabase(Scenarios.OrdersDatabase);
     }
 
     [Fact]
@@ -90,6 +98,40 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
         Assert.Empty(this.log.CommittedSqlLines);
     }
 
+    [Fact]
+    public async Task MultipleDatabases_ExecutesSqlFilesOnEachDatabase()
+    {
+        // Act
+        var results = await XunitPipeline.RunAsync(typeof(Scenarios.MultipleDatabases));
+
+        // Assert
+        var result = Assert.Single(results);
+        Assert.Equal(XunitTestOutcome.Passed, result.Outcome);
+        Assert.True(Scenarios.TestMethodExecuted);
+
+        // 名前付きのデータベースの SQL ファイルは、そのデータベースに設定した TestDataDirectory から読み込まれる。
+        Assert.Equal([InsertSql, CleanupSql], this.log.CommittedSqlLines);
+        Assert.Equal([OrdersInsertSql, OrdersCleanupSql], this.ordersLog.CommittedSqlLines);
+    }
+
+    [Fact]
+    public async Task MultipleDatabases_BeforeTestFails_DoesNotExecuteAfterTestOnAnyDatabase()
+    {
+        // Act
+        var results = await XunitPipeline.RunAsync(typeof(Scenarios.MultipleDatabasesBeforeTestFails));
+
+        // Assert
+        var result = Assert.Single(results);
+        Assert.Equal(XunitTestOutcome.Failed, result.Outcome);
+        Assert.False(Scenarios.TestMethodExecuted);
+
+        // データベースをまたいだトランザクションはないため、別のデータベースでコミットしたデータはロールバックされない。
+        // また、どのデータベースの AfterTest の SQL ファイルも実行されない。
+        // 属性どうしの実行順は保証されないため、既定のデータベースへの投入が失敗より前に実行されたかどうかは検証しない。
+        Assert.DoesNotContain(CleanupSql, this.log.CommittedSqlLines);
+        Assert.Empty(this.ordersLog.CommittedSqlLines);
+    }
+
     /// <summary>
     ///  <see cref="XunitPipeline"/> で実行するテストです。
     ///  internal のため、このテストプロジェクトの実行時には検出されません。
@@ -97,6 +139,8 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
     internal static class Scenarios
     {
         public const string TestMethodFailureMessage = "テストメソッドが失敗しました。";
+
+        public const string OrdersDatabase = "Orders";
 
         /// <summary>
         ///  テストメソッドが実行されたかどうかを取得または設定します。
@@ -155,6 +199,32 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
             [Fact]
             [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", "Fail.sql")]
             [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
+            public void Test()
+            {
+                TestMethodExecuted = true;
+            }
+        }
+
+        public sealed class MultipleDatabases
+        {
+            [Fact]
+            [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql")]
+            [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", Database = OrdersDatabase)]
+            [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
+            [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql", Database = OrdersDatabase)]
+            public void Test()
+            {
+                TestMethodExecuted = true;
+            }
+        }
+
+        public sealed class MultipleDatabasesBeforeTestFails
+        {
+            [Fact]
+            [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql")]
+            [ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", "Fail.sql", Database = OrdersDatabase)]
+            [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
+            [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql", Database = OrdersDatabase)]
             public void Test()
             {
                 TestMethodExecuted = true;

@@ -82,6 +82,59 @@ dotnet add package Maris.Data.Testing
     }
     ```
 
+## Using multiple databases
+
+Register a named database by `ExecuteSqlSettings.AddDatabase`, and specify the name in the `Database` property of the attribute.
+The attributes without `Database` execute the SQL files on the default database configured by `ExecuteSqlSettings.ConnectionFactory`.
+
+```csharp title="DatabaseFixture.cs"
+public class DatabaseFixture
+{
+    public DatabaseFixture()
+    {
+        // The default database
+        ExecuteSqlSettings.ConnectionFactory = () => new SqlConnection(mainConnectionString);
+
+        // A named database
+        ExecuteSqlSettings.AddDatabase(
+            Databases.Orders,
+            () => new SqlConnection(ordersConnectionString),
+            options =>
+            {
+                // The values of ExecuteSqlSettings are used for the items not set.
+                options.TestDataDirectory = "TestData/Orders";
+                options.CommandTimeout = 120;
+            });
+    }
+}
+
+public static class Databases
+{
+    public const string Orders = "Orders";
+}
+```
+
+```csharp title="TestClass1.cs"
+[Fact]
+[ExecuteSql(SqlExecutionPhase.BeforeTest, "Customers/Insert.sql")]
+[ExecuteSql(SqlExecutionPhase.BeforeTest, "Insert.sql", Database = Databases.Orders)]
+[ExecuteSql(SqlExecutionPhase.AfterTest, "Customers/Delete.sql")]
+[ExecuteSql(SqlExecutionPhase.AfterTest, "Delete.sql", Database = Databases.Orders)]
+public void TestMethod()
+{
+}
+```
+
+- Database names are case-sensitive.
+  To avoid typos, it is recommended to define the names as constants.
+- If a name that is not registered is specified, an exception is thrown when the SQL files are executed, and the test fails.
+- Registering a database with a name that is already registered throws an exception.
+  Use `ExecuteSqlSettings.RemoveDatabase` to remove a registration.
+- The third parameter of `AddDatabase` configures the base folder of the SQL files (`TestDataDirectory`) and the command timeout (`CommandTimeout`) for each database.
+  The values of `ExecuteSqlSettings` are used for the items not set.
+- Transactions across databases are not supported.
+  See [Notes](#notes) for details.
+
 ## Behavior
 
 - The SQL files specified in one attribute are executed in the specified order within one transaction.
@@ -134,6 +187,10 @@ dotnet add package Maris.Data.Testing
   If the tests in different classes manipulate the same tables, put those classes in the same [test collection][xUnit collection], or disable parallelization.
 - In some database products such as MySQL and Oracle Database, executing DDL (such as `CREATE TABLE` and `TRUNCATE`) causes an implicit commit.
   If the SQL files contain DDL, the changes made before a failure may not be rolled back even if the execution of the SQL files fails.
+- When using multiple databases, transactions across databases are not supported.
+  If the SQL files specified with `SqlExecutionPhase.BeforeTest` fail on one database, the data already committed on the other databases is not rolled back.
+  In addition, the SQL files specified with `SqlExecutionPhase.AfterTest` are not executed on any database, so the inserted data remains.
+  Because the execution order among the attributes is not guaranteed, SQL files that depend on the order across databases cannot be specified either.
 
 ## Dependencies
 
