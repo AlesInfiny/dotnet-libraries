@@ -11,7 +11,7 @@ internal sealed class RecordingDbTransaction : DbTransaction
 {
     private readonly RecordingDbConnection connection;
     private readonly SqlLog log;
-    private readonly List<string> pendingSqls = [];
+    private readonly List<string> pendingSqlLines = [];
 
     /// <summary>
     ///  <see cref="RecordingDbTransaction"/> クラスの新しいインスタンスを初期化します。
@@ -35,16 +35,16 @@ internal sealed class RecordingDbTransaction : DbTransaction
     /// <inheritdoc/>
     public override void Commit()
     {
-        this.log.AddRange(this.pendingSqls);
-        this.pendingSqls.Clear();
+        this.log.AddRange(this.pendingSqlLines);
+        this.pendingSqlLines.Clear();
     }
 
     /// <inheritdoc/>
-    public override void Rollback() => this.pendingSqls.Clear();
+    public override void Rollback() => this.pendingSqlLines.Clear();
 
     /// <summary>
     ///  実行された SQL を、コミット待ちとして追加します。
     /// </summary>
     /// <param name="sql">実行された SQL 。</param>
-    internal void Add(string sql) => this.pendingSqls.Add(sql);
+    internal void Add(string sql) => this.pendingSqlLines.Add(sql);
 }

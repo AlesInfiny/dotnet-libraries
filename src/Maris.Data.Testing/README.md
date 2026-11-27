@@ -117,6 +117,7 @@ dotnet add package Maris.Data.Testing
     [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql", "B.sql")]  // If B.sql fails, A.sql is also rolled back.
     [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
     ```
+
 - The content of each SQL file is executed as a single command.
   Database-specific batch separators such as `GO` in SQL Server are not supported. Split such SQL into separate files.
 - Files containing only white space are skipped.

@@ -116,6 +116,7 @@ dotnet add package Maris.Data.Testing
     [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql", "B.sql")]  // B.sql が失敗すると A.sql もロールバック
     [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
     ```
+
 - 各 SQL ファイルの内容は、 1 つのコマンドとして実行します。
   SQL Server の `GO` のような、データベース固有のバッチ区切りには対応していません。必要に応じてファイルを分割してください。
 - 空白のみのファイルは実行しません。

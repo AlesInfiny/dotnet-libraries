@@ -41,7 +41,7 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
         var result = Assert.Single(results);
         Assert.Equal(XunitTestOutcome.Passed, result.Outcome);
         Assert.True(Scenarios.TestMethodExecuted);
-        Assert.Equal([InsertSql, CleanupSql], this.log.CommittedSqls);
+        Assert.Equal([InsertSql, CleanupSql], this.log.CommittedSqlLines);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
         var result = Assert.Single(results);
         Assert.Equal(XunitTestOutcome.Failed, result.Outcome);
         Assert.Contains(Scenarios.TestMethodFailureMessage, Assert.Single(result.Messages));
-        Assert.Equal([InsertSql, CleanupSql], this.log.CommittedSqls);
+        Assert.Equal([InsertSql, CleanupSql], this.log.CommittedSqlLines);
     }
 
     [Theory]
@@ -72,7 +72,7 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
 
         // xUnit は Before で例外が発生すると、属性の記述順に関係なく、どの属性の After も呼び出さない。
         // そのため AfterTest の SQL ファイルは実行されず、失敗より前に別の属性でコミットしたデータが残る。
-        Assert.Equal([InsertSql], this.log.CommittedSqls);
+        Assert.Equal([InsertSql], this.log.CommittedSqlLines);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public sealed class ExecuteSqlAttributeIntegrationTest : IDisposable
         Assert.False(Scenarios.TestMethodExecuted);
 
         // 1 つの属性で指定した SQL ファイルは 1 つのトランザクションで実行するため、まとめてロールバックされる。
-        Assert.Empty(this.log.CommittedSqls);
+        Assert.Empty(this.log.CommittedSqlLines);
     }
 
     /// <summary>
