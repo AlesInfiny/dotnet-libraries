@@ -14,8 +14,10 @@ public enum SqlExecutionPhase
     ///  テストメソッドの実行後（テストメソッドが失敗した場合も含む）。
     /// </summary>
     /// <remarks>
-    ///  <see cref="BeforeTest"/> の SQL ファイルの実行に失敗した場合は、実行されないことがあります。
-    ///  確実に実行するには、 <see cref="AfterTest"/> の属性を <see cref="BeforeTest"/> の属性より前に記述してください。
+    ///  <see cref="BeforeTest"/> の SQL ファイルの実行に失敗した場合は、属性の記述順に関係なく実行されません。
+    ///  xUnit は、いずれかの属性の <see cref="global::Xunit.v3.BeforeAfterTestAttribute.Before"/> で例外が発生すると、
+    ///  すべての属性の <see cref="global::Xunit.v3.BeforeAfterTestAttribute.After"/> を呼び出さないためです。
+    ///  失敗時にデータを残さないためには、 <see cref="BeforeTest"/> の SQL ファイルを 1 つの属性にまとめて指定してください。
     /// </remarks>
     AfterTest,
 }

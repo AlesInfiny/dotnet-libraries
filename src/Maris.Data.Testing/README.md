@@ -72,8 +72,8 @@ dotnet add package Maris.Data.Testing
     public class TestClass1
     {
         [Fact]
-        [ExecuteSql(SqlExecutionPhase.AfterTest, "Products/Delete.sql")]
         [ExecuteSql(SqlExecutionPhase.BeforeTest, "Products/Insert.sql")]
+        [ExecuteSql(SqlExecutionPhase.AfterTest, "Products/Delete.sql")]
         public void TestMethod()
         {
             // Test data inserted by Products/Insert.sql is available here.
@@ -87,9 +87,9 @@ dotnet add package Maris.Data.Testing
 - The SQL files specified in one attribute are executed in the specified order within one transaction.
   If any of them fails, the transaction is rolled back and the test fails.
 - The SQL files specified with `SqlExecutionPhase.AfterTest` are executed even if the test method fails.
-  However, they may not be executed if the SQL files specified with `SqlExecutionPhase.BeforeTest` fail.
-  xUnit calls `Before` of the attributes in the order they are declared, and calls `After` in reverse order only for the attributes whose `Before` succeeded.
-  If `Before` throws an exception, neither `Before` nor `After` of the attributes declared after it is called.
+  However, they are not executed if the SQL files specified with `SqlExecutionPhase.BeforeTest` fail, regardless of the order of the attributes.
+  This is because xUnit calls neither the test method nor `After` of any attribute when `Before` of an attribute throws an exception.
+  In this case, the data inserted by the SQL files executed in other attributes before the failure remains, because they have already been committed.
 
     ```csharp
     [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql")]       // Succeeds and is committed.
@@ -97,7 +97,13 @@ dotnet add package Maris.Data.Testing
     [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]  // Not executed, so the data inserted by A.sql remains.
     ```
 
-  To clean up even when the SQL files specified with `SqlExecutionPhase.BeforeTest` fail, declare the `SqlExecutionPhase.AfterTest` attributes before the `SqlExecutionPhase.BeforeTest` attributes.
+  To leave no data when the SQL files specified with `SqlExecutionPhase.BeforeTest` fail, specify the SQL files in one attribute.
+  The SQL files specified in one attribute are executed within one transaction, so all of them are rolled back if any of them fails.
+
+    ```csharp
+    [ExecuteSql(SqlExecutionPhase.BeforeTest, "A.sql", "B.sql")]  // If B.sql fails, A.sql is also rolled back.
+    [ExecuteSql(SqlExecutionPhase.AfterTest, "Cleanup.sql")]
+    ```
 - The content of each SQL file is executed as a single command.
   Database-specific batch separators such as `GO` in SQL Server are not supported. Split such SQL into separate files.
 - Files containing only white space are skipped.

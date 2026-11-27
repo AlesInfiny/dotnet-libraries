@@ -10,6 +10,7 @@ on:
     paths:
       - 'src/Maris.Data.Testing/**'
       - 'tests/Maris.Data.Testing.Tests/**'
+      - 'tests/Maris.Data.Testing.IntegrationTests/**'
       - '.github/workflows/maris-data-testing.ci.yml'
       - '**/Directory.Build.props'
       - '**/Directory.Packages.props'
@@ -68,6 +69,7 @@ jobs:
           echo '## Build Result :gear:' >> $GITHUB_STEP_SUMMARY
           dotnet build src/Maris.Data.Testing/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
           dotnet build tests/Maris.Data.Testing.Tests/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --verbosity minimal >> build-result.txt
+          dotnet build tests/Maris.Data.Testing.IntegrationTests/ --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} --verbosity minimal >> build-result.txt
           echo ':heavy_check_mark: アプリケーションのビルドに成功しました。' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat build-result.txt >> $GITHUB_STEP_SUMMARY
@@ -91,12 +93,19 @@ jobs:
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
           dotnet test --project tests/Maris.Data.Testing.Tests/Maris.Data.Testing.Tests.csproj --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename Maris.Data.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
 
+      - name: 結合テストの実行
+        id: run-integration-test
+        shell: bash
+        continue-on-error: true
+        run: |
+          dotnet test --project tests/Maris.Data.Testing.IntegrationTests/Maris.Data.Testing.IntegrationTests.csproj --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework_version }} -- --report-xunit-trx --report-xunit-trx-filename Maris.Data.Testing.IntegrationTests-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx
+
       - id: create-test-result-report
         name: テスト結果ページの作成
         uses: dorny/test-reporter@d1b5dff021aa968b288b02285a8bf47471c5928a # v3.2.0
         with:
           name: 'Test results ${{ matrix.framework_version }} on ${{ matrix.vm_image }}'
-          path: '**/TestResults/Maris.Data.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
+          path: '**/TestResults/Maris.Data.Testing-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx,**/TestResults/Maris.Data.Testing.IntegrationTests-${{ matrix.vm_image }}-${{ matrix.framework_version }}.trx'
           path-replace-backslashes: 'true'
           reporter: 'dotnet-trx'
           only-summary: 'false'
@@ -134,6 +143,7 @@ jobs:
           name: unit-test-results-${{ matrix.vm_image }}-${{ matrix.framework_version }}
           path: |
             tests/Maris.Data.Testing.Tests/**/TestResults/
+            tests/Maris.Data.Testing.IntegrationTests/**/TestResults/
             CoverageReport/Summary.txt
   
       - name: 単体テスト結果の確認

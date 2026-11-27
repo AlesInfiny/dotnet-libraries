@@ -15,6 +15,7 @@
     <File Path="tests/Directory.Build.props" />
     <Project Path="tests/Maris.ComponentModel.Annotations.Tests/Maris.ComponentModel.Annotations.Tests.csproj" />
     <Project Path="tests/Maris.Core.Tests/Maris.Core.Tests.csproj" Id="1c2ecea4-f1da-43a4-9369-bedf9b54d3eb" />
+    <Project Path="tests/Maris.Data.Testing.IntegrationTests/Maris.Data.Testing.IntegrationTests.csproj" />
     <Project Path="tests/Maris.Data.Testing.Tests/Maris.Data.Testing.Tests.csproj" />
     <Project Path="tests/Maris.Logging.Testing.Tests/Maris.Logging.Testing.Tests.csproj" />
   </Folder>
