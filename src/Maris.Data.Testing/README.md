@@ -129,8 +129,10 @@ dotnet add package Maris.Data.Testing
 
 ## Notes
 
-xUnit runs test classes in different test collections in parallel by default.
-If the tests in different classes manipulate the same tables, put those classes in the same [test collection][xUnit collection], or disable parallelization.
+- xUnit runs test classes in different test collections in parallel by default.
+  If the tests in different classes manipulate the same tables, put those classes in the same [test collection][xUnit collection], or disable parallelization.
+- In some database products such as MySQL and Oracle Database, executing DDL (such as `CREATE TABLE` and `TRUNCATE`) causes an implicit commit.
+  If the SQL files contain DDL, the changes made before a failure may not be rolled back even if the execution of the SQL files fails.
 
 ## Dependencies
 
