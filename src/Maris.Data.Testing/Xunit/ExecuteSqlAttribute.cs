@@ -55,6 +55,11 @@ public sealed class ExecuteSqlAttribute : BeforeAfterTestAttribute
 
     private static string ReadSqlFile(string testDataDirectory, string sqlFile)
     {
+        if (Path.IsPathRooted(sqlFile))
+        {
+            throw new ArgumentException($"SQL ファイル パスは相対パスである必要があります: '{sqlFile}'", nameof(sqlFile));
+        }
+
         var path = Path.GetFullPath(Path.Combine(testDataDirectory, sqlFile));
         if (!File.Exists(path))
         {
